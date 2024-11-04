@@ -10,3 +10,11 @@ urlpatterns = [
     path('', controle_views.home, name='home'),  # URL para a página inicial
     path('home/', controle_views.home, name='home'),  # URL para a página "home"
 ]
+
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='controle_frequencia/login.html'), name='login'),
+    # outros caminhos...
+]
