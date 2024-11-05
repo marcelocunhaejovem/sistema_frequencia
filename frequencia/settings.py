@@ -73,21 +73,14 @@ WSGI_APPLICATION = "frequencia.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import os
-import dj_database_url  # Certifique-se de ter dj_database_url instalado
-
-DATABASES = {
-    'default': dj_database_url.config(default='postgresql://marcelocunha:AogLXl59fGdzXu0aMlv9GvjB2sgIimse@dpg-csl6nre8ii6s73c0q0a0-a/frequenciadados_99gu')
-}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'frequenciadados',  # Substitua pelo nome do seu banco
-        'USER': 'marcelocunha',  # Substitua pelo usuário do banco
-        'PASSWORD': 'AogLXl59fGdzXu0aMlv9GvjB2sgIimse',  # Substitua pela senha do usuário
-        'HOST': 'dpg-csl6nre8ii6s73c0q0a0-a',  # Ou o endereço do servidor PostgreSQL
-        'PORT': '5432',  # Porta padrão do PostgreSQL
+        'NAME': 'frequenciadados_99gu',  # Nome do novo banco de dados
+        'USER': 'marcelocunha',          # Usuário do banco de dados
+        'PASSWORD': 'AogLXl59fGdzXu0aMlv9GvjB2sgIimse',  # Senha do usuário
+        'HOST': 'dpg-csl6nre8ii6s73c0q0a0-a',            # Endereço do servidor
+        'PORT': '5432',                                 # Porta do PostgreSQL
     }
 }
 
