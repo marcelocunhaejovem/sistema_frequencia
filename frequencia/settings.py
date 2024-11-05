@@ -77,7 +77,7 @@ import os
 import dj_database_url  # Certifique-se de ter dj_database_url instalado
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://marcelocunha:5pXiAdj9OmAHUR7UKO59XPOCFd5IkUmf@dpg-csl4st5ds78s73dgiefg-a/frequenciadados')
+    'default': dj_database_url.config(default='postgresql://marcelocunha:AogLXl59fGdzXu0aMlv9GvjB2sgIimse@dpg-csl6nre8ii6s73c0q0a0-a/frequenciadados_99gu')
 }
 
 DATABASES = {
@@ -85,8 +85,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'frequenciadados',  # Substitua pelo nome do seu banco
         'USER': 'marcelocunha',  # Substitua pelo usuário do banco
-        'PASSWORD': 'marcelo25',  # Substitua pela senha do usuário
-        'HOST': 'dpg-csl4st5ds78s73dgiefg-a',  # Ou o endereço do servidor PostgreSQL
+        'PASSWORD': 'AogLXl59fGdzXu0aMlv9GvjB2sgIimse',  # Substitua pela senha do usuário
+        'HOST': 'dpg-csl6nre8ii6s73c0q0a0-a',  # Ou o endereço do servidor PostgreSQL
         'PORT': '5432',  # Porta padrão do PostgreSQL
     }
 }
