@@ -74,9 +74,13 @@ WSGI_APPLICATION = "frequencia.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'frequenciadados',  # Substitua pelo nome do seu banco
+        'USER': 'marcelocunha',  # Substitua pelo usuário do banco
+        'PASSWORD': 'M@rcelo252',  # Substitua pela senha do usuário
+        'HOST': 'localhost',  # Ou o endereço do servidor PostgreSQL
+        'PORT': '5432',  # Porta padrão do PostgreSQL
     }
 }
 
