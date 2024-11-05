@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'frequenciadados',  # Substitua pelo nome do seu banco
         'USER': 'marcelocunha',  # Substitua pelo usuário do banco
-        'PASSWORD': 'M@rcelo252',  # Substitua pela senha do usuário
+        'PASSWORD': 'marcelo25',  # Substitua pela senha do usuário
         'HOST': 'dpg-csl4st5ds78s73dgiefg-a',  # Ou o endereço do servidor PostgreSQL
         'PORT': '5432',  # Porta padrão do PostgreSQL
     }
