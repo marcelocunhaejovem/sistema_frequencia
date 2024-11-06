@@ -20,7 +20,7 @@ class Estudante(models.Model):
         return self.usuario.username
 
 # Modelo para Professor
-class Professores(models.Model):  # Corrija o nome da classe para "Professores"
+class Professor(models.Model):
     # Defina aqui os campos do modelo
     
     nome = models.CharField(max_length=100)
