@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'controle_frequencia',
-    'controle_frequencia.apps.ControleFrequenciaConfig',
+    'controle_frequencia',  # Mantenha apenas esta linha
 ]
 
 MIDDLEWARE = [
@@ -73,10 +71,12 @@ TEMPLATES = [
 WSGI_APPLICATION = "frequencia.wsgi.application"
 
 # Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'frequenciadados_99gu',  # Nome do novo banco de dados
+        'NAME': 'frequenciadados_99gu',  # Nome do banco de dados
         'USER': 'marcelocunha',          # Usuário do banco de dados
         'PASSWORD': 'AogLXl59fGdzXu0aMlv9GvjB2sgIimse',  # Senha do usuário
         'HOST': 'dpg-csl6nre8ii6s73c0q0a0-a',            # Endereço do servidor
@@ -85,6 +85,8 @@ DATABASES = {
 }
 
 # Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -101,22 +103,31 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+
 LANGUAGE_CODE = "en-us"
+
 TIME_ZONE = "UTC"
+
 USE_I18N = True
+
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Authentication redirection URLs
-LOGIN_REDIRECT_URL = '/dashboard/'  # Caminho para o dashboard após login
-LOGOUT_REDIRECT_URL = '/accounts/login/'  # Caminho para a página de login após logout
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # Logging configuration to capture errors in production
 LOGGING = {
