@@ -20,11 +20,15 @@ class Estudante(models.Model):
         return self.usuario.username
 
 # Modelo para Professor
-class Professor(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+class Professores(models.Model):  # Corrija o nome da classe para "Professores"
+    # Defina aqui os campos do modelo
+    
+    nome = models.CharField(max_length=100)
+    # outros campos...
 
-    def __str__(self):
-        return self.usuario.username
+    class Meta:
+        verbose_name = "Professor"           # Nome singular
+        verbose_name_plural = "Professores"  # Nome plural em português
 
 # Modelo para Registro de Frequência
 class Frequencia(models.Model):
