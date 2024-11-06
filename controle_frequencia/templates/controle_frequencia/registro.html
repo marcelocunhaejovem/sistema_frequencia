@@ -1,0 +1,7 @@
+<!-- controle_frequencia/templates/registro.html -->
+<h2>Registro de Usuário</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Registrar</button>
+</form>
