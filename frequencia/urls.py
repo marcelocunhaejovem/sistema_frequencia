@@ -1,17 +1,13 @@
-# controle_frequencia/views.py
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import RegistroForm
+from django.contrib import admin
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from controle_frequencia import views as controle_views  # Importa views do app
 
-def registro(request):
-    if request.method == 'POST':
-        form = RegistroForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            login(request, user)  # Autentica o usuário automaticamente após o registro
-            return redirect('home')  # Redireciona para a página inicial (home)
-    else:
-        form = RegistroForm()
-    return render(request, 'controle_frequencia/registro.html', {'form': form})
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='controle_frequencia/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', controle_views.home, name='home'),  # URL para a página inicial
+    path('home/', controle_views.home, name='home'),  # URL para a página "home"
+    path('registro/', controle_views.registro, name='registro'),  # URL para o registro
+]
