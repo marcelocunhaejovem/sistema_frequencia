@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from controle_frequencia import views as controle_views  # Importa views do app
 
@@ -10,4 +10,10 @@ urlpatterns = [
     path('', controle_views.home, name='home'),  # URL para a página inicial
     path('home/', controle_views.home, name='home'),  # URL para a página "home"
     path('registro/', controle_views.registro, name='registro'),  # URL para o registro
+
+    # URLs para redefinição de senha
+    path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
