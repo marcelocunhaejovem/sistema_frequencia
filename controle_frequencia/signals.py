@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
-from .models import Turma, Estudante, Professor, Frequencia  # Certifique-se de que Professor está correto
+from .models import Turma, Estudante, Professor, Frequencia  # Certifique-se de que o modelo "Professor" está correto
 
 @receiver(post_migrate)
 def create_user_groups(sender, **kwargs):
