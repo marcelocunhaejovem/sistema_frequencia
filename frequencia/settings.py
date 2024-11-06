@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-*gbs9$brlo1)xxt7)au57-u--5ztgv!qkx=oj2zc=!8$i1f7!6"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # Ajustado para True para depuração
 
 ALLOWED_HOSTS = ['sistema-frequencia.onrender.com', '127.0.0.1', 'localhost']
 
@@ -135,16 +135,33 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'ERROR',
+            'level': 'WARNING',  # Configurado para capturar WARNING e superiores
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'error.log'),
+            'formatter': 'detailed',
+        },
+        'console': {
+            'level': 'DEBUG',  # Configurado para capturar DEBUG no console
+            'class': 'logging.StreamHandler',
+            'formatter': 'detailed',
+        },
+    },
+    'formatters': {
+        'detailed': {
+            'format': '{asctime} {levelname} {name} {message}',
+            'style': '{',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG' if DEBUG else 'ERROR',  # DEBUG se DEBUG=True, ERROR caso contrário
             'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file', 'console'],
+            'level': 'ERROR',  # Apenas erros de requisição HTTP serão registrados
+            'propagate': False,
         },
     },
 }
