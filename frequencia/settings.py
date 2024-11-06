@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'controle_frequencia',
+    'controle_frequencia.apps.ControleFrequenciaConfig',
 ]
 
 MIDDLEWARE = [
