@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
-from .models import Turma, Estudante, Professores, Frequencia
+from .models import Turma, Estudante, Professor, Frequencia  # Certifique-se de que Professor está correto
 
 @receiver(post_migrate)
 def create_user_groups(sender, **kwargs):
@@ -12,7 +12,7 @@ def create_user_groups(sender, **kwargs):
     admin_group, created = Group.objects.get_or_create(name='Administrador')
     if created:
         # Atribuir todas as permissões de cada modelo ao grupo Administrador
-        for model in [Turma, Estudante, Professores, Frequencia]:
+        for model in [Turma, Estudante, Professor, Frequencia]:
             content_type = ContentType.objects.get_for_model(model)
             permissions = Permission.objects.filter(content_type=content_type)
             admin_group.permissions.add(*permissions)
@@ -25,4 +25,3 @@ def create_user_groups(sender, **kwargs):
             content_type = ContentType.objects.get_for_model(model)
             view_permission = Permission.objects.filter(content_type=content_type, codename__startswith='view')
             user_group.permissions.add(*view_permission)
-
