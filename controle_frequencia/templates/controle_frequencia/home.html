@@ -1,13 +1,52 @@
+<!-- controle_frequencia/templates/controle_frequencia/home.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard</title>
+    <style>
+        /* Estilos básicos para o dashboard */
+        .dashboard-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .dashboard-sections {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .section {
+            width: 200px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .section h2 {
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
-    <h2>Bem-vindo ao Sistema de Frequência!</h2>
-    <p>Esta página só está acessível para usuários logados.</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <div class="dashboard-container">
+        <h1>Bem-vindo, {{ user.username }}!</h1>
+        <p>Aqui estão suas principais opções e notificações.</p>
+
+        <div class="dashboard-sections">
+            <div class="section">
+                <h2>Avisos</h2>
+                <p>Nenhum aviso novo.</p>
+            </div>
+            <div class="section">
+                <h2>Opções Rápidas</h2>
+                <ul>
+                    <li><a href="{% url 'registro' %}">Cadastrar Novo Usuário</a></li>
+                    <li><a href="{% url 'frequencia' %}">Ver Frequências</a></li>
+                    <li><a href="{% url 'turmas' %}">Gerenciar Turmas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
