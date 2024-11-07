@@ -10,6 +10,9 @@ urlpatterns = [
     path('', controle_views.home, name='home'),  # URL para a página inicial
     path('home/', controle_views.home, name='home'),  # URL para a página "home"
     path('registro/', controle_views.registro, name='registro'),  # URL para o registro
+    
+    # Nova URL para a view 'frequencia'
+    path('frequencia/', controle_views.frequencia, name='frequencia'),
 
     # URLs para redefinição de senha
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
