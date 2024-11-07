@@ -13,6 +13,11 @@ def turmas(request):
     # Lógica para exibir a lista de turmas (adicione a lógica conforme necessário)
     return render(request, 'controle_frequencia/turmas.html')
 
+@login_required
+def frequencia(request):
+    # Lógica para exibir a frequência (adicione a lógica conforme necessário)
+    return render(request, 'controle_frequencia/frequencia.html')
+
 def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
