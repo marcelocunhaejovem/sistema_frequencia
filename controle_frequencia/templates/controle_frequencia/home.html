@@ -17,6 +17,10 @@
             background-color: #343a40;
             color: #fff;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed {
+            margin-left: -250px;
         }
         .sidebar .nav-link {
             color: #adb5bd;
@@ -27,9 +31,14 @@
         .header {
             background-color: #fff;
             border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
         }
-        .header h3 {
-            margin: 0;
+        .header-icons a {
+            color: #343a40;
+            margin-left: 10px;
         }
         .welcome-message {
             background-color: #fff;
@@ -45,7 +54,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="sidebar-sticky pt-3">
                     <h4 class="text-center text-warning">Menu</h4>
                     <ul class="nav flex-column">
@@ -65,7 +74,8 @@
             <!-- Main Content -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <!-- Header -->
-                <div class="header d-flex justify-content-between align-items-center py-3">
+                <div class="header">
+                    <button id="sidebarToggle" class="btn btn-sm btn-outline-secondary">☰</button>
                     <h3>Dashboard</h3>
                     <div class="header-icons">
                         <a href="#"><i class="fas fa-bell"></i></a>
@@ -88,8 +98,8 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            $('#sidebarCollapse').on('click', function() {
-                $('#sidebar').toggleClass('collapse');
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
             });
         });
     </script>
