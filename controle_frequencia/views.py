@@ -1,6 +1,6 @@
 # controle_frequencia/views.py
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
+
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm
 
@@ -20,3 +20,8 @@ def registro(request):
     else:
         form = RegistroForm()
     return render(request, 'controle_frequencia/registro.html', {'form': form})
+
+@login_required
+def frequencia(request):
+    # Exemplo de conteúdo para a página de frequência
+    return render(request, 'controle_frequencia/frequencia.html')
