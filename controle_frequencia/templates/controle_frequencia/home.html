@@ -4,102 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- jQuery (necessário para o Bootstrap) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            font-size: 16px;
+            margin: 0;
+            background-color: #f4f4f9;
         }
         .sidebar {
+            width: 250px;
             height: 100vh;
-            background-color: #343a40;
-            padding: 20px;
+            background-color: #333;
+            color: #ffbe00;
             position: fixed;
-            font-size: 18px;
+            transition: all 0.3s;
         }
-        .sidebar .nav-link {
-            color: #f8f9fa;
+        .sidebar.collapsed {
+            width: 80px;
         }
-        .sidebar .nav-link.active {
-            font-weight: bold;
-            color: #ffcc00;
+        .sidebar h2 {
+            padding: 15px;
+            margin: 0;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            color: #b8b8b8;
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+        }
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+        .sidebar ul li:hover {
+            background-color: #444;
+            cursor: pointer;
         }
         .content {
-            margin-left: 220px;
+            margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s;
         }
-        .navbar {
-            margin-left: 220px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 15px;
-            font-size: 18px;
+        .content.collapsed {
+            margin-left: 80px;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+        }
+        .menu-toggle {
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .topbar .icons {
+            display: flex;
+            gap: 20px;
+        }
+        .topbar .icons a {
+            color: #333;
+            font-size: 1.2em;
+        }
+        .topbar .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .topbar .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+        .topbar .dropdown:hover .dropdown-content {
+            display: block;
         }
         .card {
-            font-size: 18px;
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h4 class="text-warning">Menu</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Início</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Turmas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Frequência</a>
-            </li>
+    <div class="sidebar" id="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><i class="fas fa-home"></i> Início</li>
+            <li><i class="fas fa-users"></i> Turmas</li>
+            <li><i class="fas fa-check-circle"></i> Frequência</li>
         </ul>
     </div>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <h4 class="navbar-brand">Dashboard</h4>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi bi-bell"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi bi-question-circle"></i></a>
-                </li>
-                <!-- Dropdown perfil -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-                        <li><a class="dropdown-item" href="#">Configurações</a></li>
-                        <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Content -->
-    <div class="content">
-        <div class="container">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Bem-vindo ao Sistema de Frequência!</h4>
-                    <p class="card-text">Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
+    <div class="content" id="content">
+        <div class="topbar">
+            <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
+            <h2>Dashboard</h2>
+            <div class="icons">
+                <a href="#"><i class="fas fa-bell"></i></a>
+                <a href="#"><i class="fas fa-question-circle"></i></a>
+                <div class="dropdown">
+                    <a href="#"><i class="fas fa-user"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#">Configurações</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="card">
+            <h3>Bem-vindo ao Sistema de Frequência!</h3>
+            <p>Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
+        </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("collapsed");
+            document.getElementById("content").classList.toggle("collapsed");
+        }
+    </script>
 </body>
 </html>
