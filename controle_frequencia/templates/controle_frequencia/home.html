@@ -5,213 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: #333;
-            color: #ffbe00;
-            position: fixed;
-            transition: width 0.3s;
-            z-index: 1000;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Alinhamento à esquerda quando aberto */
-        }
-        .sidebar.collapsed {
-            width: 80px;
-            align-items: center; /* Alinhamento centralizado quando colapsado */
-        }
-        .menu-toggle {
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #ffbe00;
-            padding: 10px;
-            align-self: flex-end;
-            margin-right: 10px;
-            transition: transform 0.3s;
-        }
-        .sidebar h2 {
-            margin: 10px 20px;
-            font-size: 1.2em;
-            color: #ffbe00;
-            white-space: nowrap;
-            text-align: left; /* Alinhado à esquerda */
-        }
-        .sidebar.collapsed h2 {
-            text-align: center;
-            width: 100%;
-        }
-        .sidebar h3 {
-            font-size: 1em;
-            color: #aaa;
-            margin-top: 20px;
-            padding-left: 20px;
-            white-space: nowrap;
-            text-align: left;
-        }
-        .sidebar.collapsed h3 {
-            padding-left: 0;
-            text-align: center;
-            width: 100%;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            width: 100%;
-        }
-        .sidebar ul li {
-            padding: 15px 20px;
-            color: #b8b8b8;
-            display: flex;
-            align-items: center;
-            font-size: 1em;
-            transition: all 0.3s;
-            white-space: nowrap;
-            text-align: left; /* Alinhado à esquerda quando aberto */
-            width: 100%;
-        }
-        .sidebar.collapsed ul li {
-            justify-content: center;
-            text-align: center; /* Centralizado quando colapsado */
-            padding-left: 0;
-        }
-        .sidebar ul li i {
-            margin-right: 10px;
-            transition: margin 0.3s;
-        }
-        .sidebar.collapsed ul li .menu-text,
-        .sidebar.collapsed h3 .area-text {
-            display: none;
-        }
-        .sidebar ul li:hover {
-            background-color: #444;
-            cursor: pointer;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            transition: margin-left 0.3s;
-        }
-        .content.collapsed {
-            margin-left: 80px;
-        }
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        .topbar .icons {
-            display: flex;
-            gap: 20px;
-        }
-        .topbar .icons a {
-            color: #333;
-            font-size: 1.2em;
-        }
-        .topbar .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .topbar .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #fff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1;
-            min-width: 150px;
-        }
-        .topbar .dropdown-content a {
-            color: #333;
-            padding: 8px 12px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9em;
-        }
-        .topbar .dropdown-content a:hover {
-            background-color: #f4f4f9;
-        }
-        .topbar .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="sidebar" id="sidebar">
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <h2>Menu</h2>
-        <!-- Área Pedagógica -->
-        <h3><i class="fas fa-chalkboard-teacher"></i> <span class="area-text">Área Pedagógica</span></h3>
-        <ul>
-            <li><i class="fas fa-home"></i> <span class="menu-text">Início</span></li>
-            <li><i class="fas fa-users"></i> <span class="menu-text">Turmas</span></li>
-            <li><i class="fas fa-check-circle"></i> <span class="menu-text">Frequência</span></li>
-        </ul>
-        
-        <!-- Área Administrativa -->
-        <h3><i class="fas fa-cogs"></i> <span class="area-text">Área Administrativa</span></h3>
-        <ul>
-            <li><i class="fas fa-user-cog"></i> <span class="menu-text">Usuários</span></li>
-            <li><i class="fas fa-folder-open"></i> <span class="menu-text">Documentos</span></li>
-        </ul>
-        
-        <!-- Área Financeira -->
-        <h3><i class="fas fa-wallet"></i> <span class="area-text">Área Financeira</span></h3>
-        <ul>
-            <li><i class="fas fa-file-invoice-dollar"></i> <span class="menu-text">Pagamentos</span></li>
-            <li><i class="fas fa-chart-line"></i> <span class="menu-text">Relatórios</span></li>
-        </ul>
-    </div>
-    <div class="content" id="content">
-        <div class="topbar">
-            <h2>Dashboard</h2>
-            <div class="icons">
-                <a href="#"><i class="fas fa-bell"></i></a>
-                <a href="#"><i class="fas fa-question-circle"></i></a>
-                <div class="dropdown">
-                    <a href="#"><i class="fas fa-user"></i></a>
-                    <div class="dropdown-content">
-                        <a href="#">Configurações</a>
-                        <a href="{% url 'logout' %}">Logout</a>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="menu">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Área Pedagógica</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Turmas</a></li>
+                    <li><a href="#"><i class="fas fa-check-circle"></i> Frequência</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Área Administrativa</a></li>
+                    <li><a href="{% url 'upload_turma' %}"><i class="fas fa-upload"></i> Upload de Turmas</a></li>
+                    <li><a href="#"><i class="fas fa-folder"></i> Documentos</a></li>
+                    <li><a href="#"><i class="fas fa-wallet"></i> Área Financeira</a></li>
+                    <li><a href="#"><i class="fas fa-money-bill-wave"></i> Pagamentos</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <h1>Dashboard</h1>
+                <div class="header-icons">
+                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-question-circle"></i>
+                    <div class="dropdown">
+                        <i class="fas fa-user dropdown-toggle" id="userDropdown" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">Configurações</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="card">
-            <h3>Bem-vindo ao Sistema de Frequência!</h3>
-            <p>Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
-        </div>
+            </header>
+
+            <section class="dashboard">
+                <h2>Bem-vindo ao Sistema de Frequência!</h2>
+                <p>Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
+            </section>
+        </main>
     </div>
 
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            const content = document.getElementById("content");
-            sidebar.classList.toggle("collapsed");
-            content.classList.toggle("collapsed");
-        }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
