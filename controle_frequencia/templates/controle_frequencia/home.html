@@ -37,6 +37,15 @@
             text-align: left;
             padding-left: 20px;
         }
+        .menu-toggle {
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ffbe00;
+            text-align: left;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
         .sidebar ul {
             list-style: none;
             padding: 0;
@@ -48,6 +57,7 @@
             display: flex;
             align-items: center;
             font-size: 1em;
+            transition: all 0.3s;
         }
         .sidebar ul li i {
             margin-right: 10px;
@@ -78,11 +88,6 @@
             position: sticky;
             top: 0;
             z-index: 999;
-        }
-        .menu-toggle {
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #333;
         }
         .topbar .icons {
             display: flex;
@@ -131,6 +136,7 @@
 </head>
 <body>
     <div class="sidebar" id="sidebar">
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
         <h2>Menu</h2>
         <!-- Área Pedagógica -->
         <h3><i class="fas fa-chalkboard-teacher"></i> Área Pedagógica</h3>
@@ -156,7 +162,6 @@
     </div>
     <div class="content" id="content">
         <div class="topbar">
-            <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
             <h2>Dashboard</h2>
             <div class="icons">
                 <a href="#"><i class="fas fa-bell"></i></a>
