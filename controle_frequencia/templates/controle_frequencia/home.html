@@ -16,34 +16,42 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            font-size: 16px;
         }
         .sidebar {
             height: 100vh;
             background-color: #343a40;
-            padding: 10px;
+            padding: 20px;
             position: fixed;
+            font-size: 18px;
         }
         .sidebar .nav-link {
             color: #f8f9fa;
         }
         .sidebar .nav-link.active {
             font-weight: bold;
+            color: #ffcc00;
         }
         .content {
-            margin-left: 200px;
+            margin-left: 220px;
             padding: 20px;
         }
         .navbar {
-            margin-left: 200px;
+            margin-left: 220px;
             background-color: #f8f9fa;
             border-bottom: 1px solid #e0e0e0;
+            padding: 15px;
+            font-size: 18px;
+        }
+        .card {
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h5 class="text-warning">Menu</h5>
+        <h4 class="text-warning">Menu</h4>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="#">Início</a>
@@ -87,7 +95,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Bem-vindo ao Sistema de Frequência!</h5>
+                    <h4 class="card-title">Bem-vindo ao Sistema de Frequência!</h4>
                     <p class="card-text">Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
                 </div>
             </div>
