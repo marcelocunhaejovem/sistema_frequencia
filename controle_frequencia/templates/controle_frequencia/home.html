@@ -18,6 +18,7 @@
             color: #fff;
             min-height: 100vh;
             transition: margin-left 0.3s ease;
+            padding-top: 20px;
         }
         .sidebar.collapsed {
             margin-left: -250px;
@@ -27,6 +28,12 @@
         }
         .sidebar .nav-link:hover {
             color: #ffc107;
+        }
+        .sidebar h4 {
+            margin-left: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .header {
             background-color: #fff;
@@ -56,7 +63,10 @@
             <!-- Sidebar -->
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="sidebar-sticky pt-3">
-                    <h4 class="text-center text-warning">Menu</h4>
+                    <h4 class="text-warning">
+                        Menu
+                        <button id="sidebarToggle" class="btn btn-sm btn-outline-secondary">☰</button>
+                    </h4>
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Início</a>
@@ -75,7 +85,6 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <!-- Header -->
                 <div class="header">
-                    <button id="sidebarToggle" class="btn btn-sm btn-outline-secondary">☰</button>
                     <h3>Dashboard</h3>
                     <div class="header-icons">
                         <a href="#"><i class="fas fa-bell"></i></a>
