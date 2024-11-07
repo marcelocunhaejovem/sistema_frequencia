@@ -66,3 +66,17 @@ def upload_turma(request):
         form = UploadTurmaForm()
     
     return render(request, 'controle_frequencia/upload_turma.html', {'form': form})
+
+
+
+
+import logging
+logger = logging.getLogger('django')
+
+def test_logging(request):
+    logger.debug('Teste de log - nível DEBUG')
+    logger.error('Teste de log - nível ERROR')
+    return HttpResponse("Log testado!")
+
+
+
