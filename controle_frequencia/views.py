@@ -1,22 +1,16 @@
 # controle_frequencia/views.py
+
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import RegistroForm
+from django.contrib import messages
+from .forms import RegistroForm, UploadTurmaForm
+from .models import Turma
 
 @login_required
 def home(request):
     return render(request, 'controle_frequencia/home.html')
-
-@login_required
-def turmas(request):
-    # Lógica para exibir a lista de turmas (adicione a lógica conforme necessário)
-    return render(request, 'controle_frequencia/turmas.html')
-
-@login_required
-def frequencia(request):
-    # Lógica para exibir a frequência (adicione a lógica conforme necessário)
-    return render(request, 'controle_frequencia/frequencia.html')
 
 def registro(request):
     if request.method == 'POST':
@@ -30,3 +24,45 @@ def registro(request):
     else:
         form = RegistroForm()
     return render(request, 'controle_frequencia/registro.html', {'form': form})
+
+@login_required
+def upload_turma(request):
+    if request.method == 'POST':
+        form = UploadTurmaForm(request.POST, request.FILES)
+        if form.is_valid():
+            arquivo = request.FILES['arquivo']
+            
+            # Verifica o tipo do arquivo
+            try:
+                if arquivo.name.endswith('.csv'):
+                    dados = pd.read_csv(arquivo)
+                elif arquivo.name.endswith('.xls') or arquivo.name.endswith('.xlsx'):
+                    dados = pd.read_excel(arquivo)
+                else:
+                    messages.error(request, "Formato de arquivo não suportado. Use CSV, XLS ou XLSX.")
+                    return redirect('upload_turma')
+
+                # Processar os dados do DataFrame e criar as turmas
+                for _, linha in dados.iterrows():
+                    # Exemplo de processamento (ajuste conforme as colunas do seu arquivo)
+                    nome_turma = linha['nome_turma']
+                    carga_horaria = linha['carga_horaria_diaria']
+
+                    # Crie ou atualize a turma no banco de dados
+                    turma, created = Turma.objects.get_or_create(
+                        nome=nome_turma,
+                        defaults={'carga_horaria_diaria': carga_horaria}
+                    )
+                    if not created:
+                        turma.carga_horaria_diaria = carga_horaria
+                        turma.save()
+
+                messages.success(request, "Turmas importadas com sucesso!")
+                return redirect('upload_turma')
+            except Exception as e:
+                messages.error(request, f"Erro ao processar o arquivo: {e}")
+                return redirect('upload_turma')
+    else:
+        form = UploadTurmaForm()
+    
+    return render(request, 'controle_frequencia/upload_turma.html', {'form': form})
