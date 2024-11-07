@@ -22,6 +22,25 @@
             position: fixed;
             top: 0;
             left: 0;
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 60px;
+        }
+        .sidebar h4, .sidebar .nav-link span {
+            display: inline;
+            transition: opacity 0.3s;
+        }
+        .sidebar.collapsed h4, .sidebar.collapsed .nav-link span {
+            opacity: 0;
+        }
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+        }
+        .sidebar-toggle {
+            cursor: pointer;
+            color: #ffc107;
+            font-size: 1.5em;
         }
         .sidebar h4 {
             text-align: center;
@@ -31,6 +50,11 @@
             color: #adb5bd;
             padding: 10px 0;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
         }
         .sidebar .nav-link:hover {
             color: #ffc107;
@@ -39,6 +63,10 @@
             margin-left: 250px;
             padding: 20px;
             width: 100%;
+            transition: margin-left 0.3s;
+        }
+        .main-content.collapsed {
+            margin-left: 60px;
         }
         .header {
             display: flex;
@@ -68,24 +96,27 @@
 <body>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
         <h4>Menu</h4>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}">Início</a>
+                <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> <span>Início</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'turmas' %}">Turmas</a>
+                <a class="nav-link" href="{% url 'turmas' %}"><i class="fas fa-users"></i> <span>Turmas</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'frequencia' %}">Frequência</a>
+                <a class="nav-link" href="{% url 'frequencia' %}"><i class="fas fa-check-circle"></i> <span>Frequência</span></a>
             </li>
             <!-- Adicione mais links conforme necessário -->
         </ul>
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <!-- Header -->
         <div class="header">
             <h3>Dashboard</h3>
@@ -107,5 +138,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
+        }
+    </script>
 </body>
 </html>
