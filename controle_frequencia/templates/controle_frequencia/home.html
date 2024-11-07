@@ -47,12 +47,18 @@
             color: #343a40;
             margin-left: 10px;
         }
+        .header-icons a:hover {
+            color: #007bff;
+        }
         .welcome-message {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+        }
+        .dropdown-menu a {
+            color: #343a40 !important;
         }
     </style>
 </head>
@@ -87,8 +93,19 @@
                 <div class="header">
                     <h3>Dashboard</h3>
                     <div class="header-icons">
-                        <a href="#"><i class="fas fa-bell"></i></a>
-                        <a href="#"><i class="fas fa-user-circle"></i></a>
+                        <a href="#"><i class="fas fa-bell"></i></a> <!-- Ícone de Notificações -->
+                        <a href="#"><i class="fas fa-question-circle"></i></a> <!-- Ícone de Ajuda -->
+                        <!-- Dropdown para perfil do usuário -->
+                        <div class="dropdown d-inline">
+                            <a href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">Configurações</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
