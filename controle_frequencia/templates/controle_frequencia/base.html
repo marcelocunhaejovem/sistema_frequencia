@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="sidebar">
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
         <h2>Menu</h2>
         <a href="{% url 'home' %}"><i class="fas fa-home"></i>Início</a>
         <a href="#"><i class="fas fa-user-friends"></i>Turmas</a>
@@ -21,11 +22,13 @@
         <h2>Área Financeira</h2>
         <a href="#"><i class="fas fa-wallet"></i>Pagamentos</a>
         <a href="#"><i class="fas fa-chart-line"></i>Relatórios</a>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
     </div>
 
+    <!-- Conteúdo Principal -->
     <div class="main-content">
         <div class="header">
-            <h1>Dashboard</h1> <!-- Removemos o segundo bloco title aqui -->
+            <h1>{% block title %}Dashboard{% endblock %}</h1>
             <div class="icons">
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-question-circle"></i>
@@ -41,10 +44,16 @@
 
         <div class="content">
             {% block content %}
-            <h1>Bem-vindo ao Sistema de Frequência!</h1>
-            <p>Esta é a sua área de trabalho. Aqui você pode acompanhar o status das turmas, visualizar a frequência dos alunos e muito mais.</p>
+            <!-- Conteúdo específico da página será inserido aqui -->
             {% endblock %}
         </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("collapsed");
+        }
+    </script>
 </body>
 </html>
