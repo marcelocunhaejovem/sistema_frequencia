@@ -1,7 +1,7 @@
 # frequencia/urls.py
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.contrib.auth import views as auth_views
 from controle_frequencia import views as controle_views  # Importa views do app
 
@@ -22,6 +22,6 @@ urlpatterns = [
     # URL para upload de turmas
     path('upload_turma/', controle_views.upload_turma, name='upload_turma'),
 
-      path('test_logging/', views.test_logging, name='test_logging'),
+    # URL para teste de logging
+    path('test_logging/', controle_views.test_logging, name='test_logging'),
 ]
-
