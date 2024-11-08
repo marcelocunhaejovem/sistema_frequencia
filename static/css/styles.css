@@ -19,12 +19,20 @@ body {
 }
 
 .sidebar.collapsed {
-    width: 80px; /* Largura quando recolhido */
+    width: 70px;
 }
 
 .sidebar h2 {
     color: #ffc107;
     margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: opacity 0.3s;
+}
+
+.sidebar.collapsed h2 {
+    opacity: 0;
 }
 
 .sidebar a {
@@ -34,12 +42,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    transition: padding 0.3s;
-}
-
-.sidebar.collapsed a {
-    padding-left: 10px;
-    justify-content: center; /* Centraliza ícones quando recolhido */
+    transition: justify-content 0.3s;
 }
 
 .sidebar a:hover {
@@ -47,28 +50,32 @@ body {
     color: #fff;
 }
 
+.sidebar.collapsed a {
+    justify-content: center;
+}
+
 .sidebar i {
     margin-right: 10px;
+    transition: margin 0.3s;
 }
 
 .sidebar.collapsed i {
-    margin-right: 0; /* Remove espaço ao recolher */
+    margin-right: 0;
 }
 
 .toggle-btn {
     background: none;
     border: none;
     color: #fff;
-    font-size: 24px;
+    font-size: 1.5em;
     cursor: pointer;
     position: absolute;
-    bottom: 20px;
-    left: 15px;
-    transition: left 0.3s;
+    bottom: 10px;
+    left: 10px;
 }
 
-.sidebar.collapsed .toggle-btn {
-    left: 30px; /* Ajuste para o botão ao recolher */
+.toggle-btn:focus {
+    outline: none;
 }
 
 /* Conteúdo principal */
@@ -80,8 +87,8 @@ body {
     margin-left: 250px;
 }
 
-.sidebar.collapsed ~ .main-content {
-    margin-left: 80px;
+.sidebar.collapsed + .main-content {
+    margin-left: 70px;
 }
 
 /* Cabeçalho superior */
@@ -135,13 +142,18 @@ body {
     font-size: 18px;
 }
 
-/* Ajuste responsivo */
+/* Responsividade */
 @media (max-width: 768px) {
     .sidebar {
-        width: 80px;
+        width: 70px;
     }
-
+    .sidebar.collapsed {
+        width: 50px;
+    }
     .main-content {
-        margin-left: 80px;
+        margin-left: 70px;
+    }
+    .sidebar h2, .sidebar.collapsed h2 {
+        display: none;
     }
 }
