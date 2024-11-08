@@ -133,23 +133,24 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',  # Configurado para capturar WARNING e superiores
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'error.log'),
+            'mode': 'a',  # Abre o arquivo para append
+            'formatter': 'detailed',
+        },
+        'console': {
+            'level': 'DEBUG',  # Configurado para capturar DEBUG no console
+            'class': 'logging.StreamHandler',
+            'formatter': 'detailed',
+        },
+    },
     'formatters': {
         'detailed': {
             'format': '{asctime} {levelname} {name} {message}',
             'style': '{',
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'ERROR',  # Captura apenas erros e níveis superiores
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'error.log'),  # Caminho do arquivo de log
-            'formatter': 'detailed',
-        },
-        'console': {
-            'level': 'DEBUG',  # Exibe todas as mensagens no console
-            'class': 'logging.StreamHandler',
-            'formatter': 'detailed',
         },
     },
     'loggers': {
@@ -160,7 +161,7 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['file', 'console'],
-            'level': 'ERROR',  # Apenas erros de requisição HTTP
+            'level': 'ERROR',  # Apenas erros de requisição HTTP serão registrados
             'propagate': False,
         },
     },
