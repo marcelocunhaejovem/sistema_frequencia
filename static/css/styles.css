@@ -15,23 +15,16 @@ body {
     flex-direction: column;
     align-items: flex-start;
     padding-top: 20px;
-    transition: width 0.3s ease;
+    transition: width 0.3s;
 }
 
 .sidebar.collapsed {
-    width: 60px;
+    width: 80px; /* Largura quando recolhido */
 }
 
 .sidebar h2 {
     color: #ffc107;
     margin-left: 20px;
-    display: block;
-    transition: opacity 0.3s ease;
-}
-
-.sidebar.collapsed h2 {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .sidebar a {
@@ -41,12 +34,17 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    transition: padding 0.3s ease;
+    transition: padding 0.3s;
 }
 
 .sidebar.collapsed a {
-    padding: 10px 10px;
-    justify-content: center;
+    padding-left: 10px;
+    justify-content: center; /* Centraliza ícones quando recolhido */
+}
+
+.sidebar a:hover {
+    background-color: #444;
+    color: #fff;
 }
 
 .sidebar i {
@@ -54,21 +52,23 @@ body {
 }
 
 .sidebar.collapsed i {
-    margin-right: 0;
+    margin-right: 0; /* Remove espaço ao recolher */
 }
 
 .toggle-btn {
-    background-color: #444;
-    color: #fff;
+    background: none;
     border: none;
-    width: 100%;
-    padding: 10px;
+    color: #fff;
+    font-size: 24px;
     cursor: pointer;
-    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    transition: left 0.3s;
 }
 
-.toggle-btn:hover {
-    background-color: #555;
+.sidebar.collapsed .toggle-btn {
+    left: 30px; /* Ajuste para o botão ao recolher */
 }
 
 /* Conteúdo principal */
@@ -76,6 +76,12 @@ body {
     flex-grow: 1;
     padding: 20px;
     background-color: #f4f6f9;
+    transition: margin-left 0.3s;
+    margin-left: 250px;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: 80px;
 }
 
 /* Cabeçalho superior */
@@ -127,4 +133,15 @@ body {
 
 .content p {
     font-size: 18px;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+
+    .main-content {
+        margin-left: 80px;
+    }
 }
