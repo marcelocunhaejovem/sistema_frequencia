@@ -3,15 +3,15 @@
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from controle_frequencia import views as controle_views  # Importa views do app
+from controle_frequencia import views as controle_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='controle_frequencia/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('', controle_views.home, name='home'),  # URL para a página inicial
-    path('home/', controle_views.home, name='home'),  # URL para a página "home"
-    path('registro/', controle_views.registro, name='registro'),  # URL para o registro
+    path('', controle_views.home, name='home'),
+    path('home/', controle_views.home, name='home'),
+    path('registro/', controle_views.registro, name='registro'),
 
     # URLs para redefinição de senha
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
@@ -21,7 +21,4 @@ urlpatterns = [
 
     # URL para upload de turmas
     path('upload_turma/', controle_views.upload_turma, name='upload_turma'),
-
-    # URL para teste de logging
-    path('test_logging/', controle_views.test_logging, name='test_logging'),
 ]
