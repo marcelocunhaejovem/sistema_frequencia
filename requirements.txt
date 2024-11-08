@@ -7,6 +7,6 @@ whitenoise
 psycopg2
 psycopg
 dj_database_url
-
+pandas==2.2.3
 
 
