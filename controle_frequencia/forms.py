@@ -17,3 +17,11 @@ class RegistroForm(forms.ModelForm):
 
         if password != confirm_password:
             self.add_error('confirm_password', "As senhas não coincidem.")
+
+class UploadTurmaForm(forms.Form):
+    turma_file = forms.FileField(label='Arquivo de Turmas')
+
+    def clean_turma_file(self):
+        file = self.cleaned_data.get('turma_file')
+        # Adicione validações específicas do arquivo aqui, se necessário
+        return file
