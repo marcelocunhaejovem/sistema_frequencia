@@ -7,59 +7,45 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        /* Inclua seu CSS aqui, ou no arquivo styles.css */
-        body {
-            display: flex;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="{% url 'home' %}"><i class="fas fa-home"></i>Início</a>
+        <a href="#"><i class="fas fa-user-friends"></i>Turmas</a>
+        <a href="#"><i class="fas fa-check-circle"></i>Frequência</a>
+        <h2>Área Administrativa</h2>
+        <a href="{% url 'upload_turma' %}"><i class="fas fa-upload"></i>Upload de Turmas</a>
+        <a href="#"><i class="fas fa-users"></i>Usuários</a>
+        <a href="#"><i class="fas fa-folder"></i>Documentos</a>
+        <h2>Área Financeira</h2>
+        <a href="#"><i class="fas fa-wallet"></i>Pagamentos</a>
+        <a href="#"><i class="fas fa-chart-line"></i>Relatórios</a>
+    </div>
 
-        /* Estilo do menu lateral */
-        .sidebar {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-top: 20px;
-        }
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div class="header">
+            <h1>{% block title %}Dashboard{% endblock %}</h1>
+            <div class="icons">
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-question-circle"></i>
+                <div class="dropdown">
+                    <i class="fas fa-user"></i>
+                    <div class="dropdown-content">
+                        <a href="#">Configurações</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        .sidebar h2 {
-            color: #ffc107;
-            margin-left: 20px;
-        }
-
-        .sidebar a {
-            color: #b0b0b0;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .sidebar a:hover {
-            background-color: #444;
-            color: #fff;
-        }
-
-        .sidebar i {
-            margin-right: 10px;
-        }
-
-        /* Conteúdo principal */
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f4f6f9;
-        }
-
-        /* Cabeçalho superior */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: #fff;
+        <div class="content">
+            {% block content %}
+            <!-- Conteúdo específico da página será inserido aqui -->
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
