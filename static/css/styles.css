@@ -4,6 +4,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f6f9;
+    height: 100vh;
 }
 
 /* Estilo do menu lateral */
@@ -15,6 +16,8 @@ body {
     flex-direction: column;
     align-items: flex-start;
     padding-top: 20px;
+    height: 100vh;
+    position: fixed;
 }
 
 .sidebar h2 {
@@ -29,6 +32,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .sidebar a:hover {
@@ -45,6 +49,8 @@ body {
     flex-grow: 1;
     padding: 20px;
     background-color: #f4f6f9;
+    margin-left: 250px; /* Espaço para o menu lateral */
+    overflow-y: auto;
 }
 
 /* Cabeçalho superior */
@@ -55,6 +61,9 @@ body {
     padding: 10px;
     background-color: #fff;
     border-bottom: 1px solid #ccc;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .header .icons {
@@ -69,10 +78,14 @@ body {
 }
 
 /* Dropdown de configurações de usuário */
+.dropdown {
+    position: relative;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
-    right: 20px;
+    right: 0;
     background-color: #fff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -97,4 +110,3 @@ body {
 .content p {
     font-size: 18px;
 }
-
