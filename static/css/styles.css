@@ -1,1 +1,100 @@
+/* Estilos gerais */
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Estilo do menu lateral */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    color: #ffc107;
+    margin-left: 20px;
+}
+
+.sidebar a {
+    color: #b0b0b0;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.sidebar a:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+.sidebar i {
+    margin-right: 10px;
+}
+
+/* Conteúdo principal */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f6f9;
+}
+
+/* Cabeçalho superior */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.header .icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.header .icons i {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+/* Dropdown de configurações de usuário */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 20px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilos para o conteúdo principal */
+.content {
+    margin-top: 20px;
+}
+
+.content h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.content p {
+    font-size: 18px;
+}
 
