@@ -1,24 +1,24 @@
-<!-- controle_frequencia/templates/controle_frequencia/upload_turma.html -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload de Turmas</title>
-</head>
-<body>
-    <h2>Upload de Arquivo para Montagem de Turmas</h2>
+{% extends "controle_frequencia/base.html" %}
+
+{% block title %}Upload de Turmas{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Upload de Turmas</h1>
+    <p>Use o formulário abaixo para carregar um arquivo com as informações das turmas. Os formatos suportados são CSV, XLS e XLSX.</p>
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
-
+    
     {% if messages %}
-        <ul>
+        <ul class="messages">
             {% for message in messages %}
-                <li>{{ message }}</li>
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-</body>
-</html>
+</div>
+{% endblock %}
