@@ -10,7 +10,7 @@ body {
 
 /* Estilo do menu lateral */
 .sidebar {
-    width: 250px;
+    width: 275px; /* Aumentado em 10% */
     background-color: #333;
     color: #fff;
     display: flex;
@@ -72,8 +72,8 @@ body {
     font-size: 1.5em;
     cursor: pointer;
     position: absolute;
-    top: 20px; /* Posiciona o botão no topo */
-    left: 10px; /* Ajusta a margem esquerda */
+    top: 20px;
+    right: 10px; /* Posicionado do lado direito da sidebar */
 }
 
 .toggle-btn:hover {
@@ -82,10 +82,10 @@ body {
 
 /* Conteúdo principal */
 .main-content {
-    margin-left: 250px;
+    margin-left: 275px; /* Ajuste para refletir a nova largura do menu */
     padding: 20px;
     background-color: #f4f6f9;
-    width: calc(100% - 250px);
+    width: calc(100% - 275px); /* Ajuste para refletir a nova largura do menu */
     box-sizing: border-box;
     height: 100vh;
     overflow-y: auto;
