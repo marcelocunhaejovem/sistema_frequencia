@@ -77,13 +77,13 @@ body {
     cursor: pointer;
     position: absolute;
     top: 20px;
-    left: 20px; /* Posição padrão à esquerda */
+    right: 20px; /* Botão movido para o lado direito do menu */
 }
 
 .sidebar.collapsed .toggle-btn {
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px; /* Mantém no lado direito quando o menu está recolhido */
     margin-top: 0;
     opacity: 1; /* Mantém visível o botão de alternância */
     pointer-events: auto;
