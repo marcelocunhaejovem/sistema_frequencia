@@ -4,6 +4,8 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f6f9;
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Estilo do menu lateral */
@@ -15,24 +17,13 @@ body {
     flex-direction: column;
     align-items: flex-start;
     padding-top: 20px;
-    transition: width 0.3s;
-}
-
-.sidebar.collapsed {
-    width: 70px;
+    height: 100vh;
+    position: fixed;
 }
 
 .sidebar h2 {
     color: #ffc107;
     margin-left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    transition: opacity 0.3s;
-}
-
-.sidebar.collapsed h2 {
-    opacity: 0;
 }
 
 .sidebar a {
@@ -42,7 +33,6 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    transition: justify-content 0.3s;
 }
 
 .sidebar a:hover {
@@ -50,45 +40,30 @@ body {
     color: #fff;
 }
 
-.sidebar.collapsed a {
-    justify-content: center;
-}
-
 .sidebar i {
     margin-right: 10px;
-    transition: margin 0.3s;
 }
 
-.sidebar.collapsed i {
-    margin-right: 0;
-}
-
+/* Estilo do botão retrátil */
 .toggle-btn {
     background: none;
     border: none;
     color: #fff;
     font-size: 1.5em;
     cursor: pointer;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-}
-
-.toggle-btn:focus {
-    outline: none;
+    margin-top: auto;
+    margin-left: 10px;
 }
 
 /* Conteúdo principal */
 .main-content {
-    flex-grow: 1;
+    margin-left: 250px;
     padding: 20px;
     background-color: #f4f6f9;
-    transition: margin-left 0.3s;
-    margin-left: 250px;
-}
-
-.sidebar.collapsed + .main-content {
-    margin-left: 70px;
+    width: calc(100% - 250px);
+    box-sizing: border-box;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 /* Cabeçalho superior */
@@ -127,11 +102,6 @@ body {
     display: block;
 }
 
-/* Estilos para o conteúdo principal */
-.content {
-    margin-top: 20px;
-}
-
 .content h1 {
     font-size: 24px;
     font-weight: bold;
@@ -140,20 +110,4 @@ body {
 
 .content p {
     font-size: 18px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 70px;
-    }
-    .sidebar.collapsed {
-        width: 50px;
-    }
-    .main-content {
-        margin-left: 70px;
-    }
-    .sidebar h2, .sidebar.collapsed h2 {
-        display: none;
-    }
 }
