@@ -6,7 +6,7 @@
 {% block content %}
 <div class="content">
     <h1>Upload de Turmas</h1>
-    <p>Use o formulário abaixo para carregar um arquivo com as informações das turmas. Os formatos suportados são CSV, XLS e XLSX.</p>
+    <p>Use o formulário abaixo para carregar um arquivo com as informações das turmas. Os formatos suportados são CSV e XLSX.</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -17,7 +17,7 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
