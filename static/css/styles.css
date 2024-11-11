@@ -72,8 +72,8 @@ body {
     font-size: 1.5em;
     cursor: pointer;
     position: absolute;
-    bottom: 20px;
-    left: 15px;
+    top: 20px; /* Posiciona o botão no topo */
+    left: 10px; /* Ajusta a margem esquerda */
 }
 
 .toggle-btn:hover {
@@ -119,36 +119,17 @@ body {
 }
 
 /* Dropdown de configurações de usuário */
-.header .dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.header .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
-    right: 0;
+    right: 20px;
     background-color: #fff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    min-width: 150px;
-    border-radius: 4px;
-    padding: 10px 0;
+    padding: 10px;
 }
 
-.header .dropdown-content a {
-    color: #333;
-    padding: 10px 20px;
-    text-decoration: none;
-    display: block;
-    font-size: 0.9em;
-}
-
-.header .dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.header .dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
