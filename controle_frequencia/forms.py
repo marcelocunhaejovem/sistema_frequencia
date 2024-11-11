@@ -19,8 +19,11 @@ class RegistroForm(forms.ModelForm):
             self.add_error('confirm_password', "As senhas não coincidem.")
 
 class UploadTurmaForm(forms.Form):
-    turma_file = forms.FileField(label='Arquivo de Turmas')
-
+    arquivo = forms.FileField(
+        label='Selecione o arquivo de turmas (CSV ou XLSX)',
+        required=True
+    )
+    
     def clean_turma_file(self):
         file = self.cleaned_data.get('turma_file')
         # Adicione validações específicas do arquivo aqui, se necessário
