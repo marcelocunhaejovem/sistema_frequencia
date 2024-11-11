@@ -8,6 +8,7 @@ from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
 from .models import Turma, Estudante
 from django.http import HttpResponse
+from django.contrib.auth.models import User  # Importação para criação de usuários
 import logging
 
 logger = logging.getLogger('django')
@@ -59,8 +60,11 @@ def upload_turma(request):
                             defaults={'carga_horaria_diaria': 4}  # Valor padrão para carga horária
                         )
 
-                        # Criação de instância para Estudante associada à turma
-                        Estudante.objects.create(usuario=nome_estudante, turma=turma)
+                        # Verifica se o usuário já existe; se não, cria um novo usuário com base no nome do aluno
+                        user, user_created = User.objects.get_or_create(username=nome_estudante)
+
+                        # Criação de instância para Estudante associada à turma e ao usuário
+                        Estudante.objects.get_or_create(usuario=user, turma=turma)
 
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
