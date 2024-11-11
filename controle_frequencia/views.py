@@ -34,26 +34,26 @@ def upload_turma(request):
     if request.method == 'POST':
         form = UploadTurmaForm(request.POST, request.FILES)
         if form.is_valid():
-            arquivo = request.FILES['arquivo']
-            
-            # Verifica o tipo do arquivo e lê os dados
+            arquivo = request.FILES['arquivo']  # Verifica se o campo 'arquivo' está presente
+
             try:
+                # Lê os dados do arquivo conforme o tipo de extensão
                 if arquivo.name.endswith('.csv'):
-                    dados = pd.read_csv(arquivo, encoding='utf-8')  # ajuste de encoding se necessário
+                    dados = pd.read_csv(arquivo, encoding='utf-8')
                 elif arquivo.name.endswith('.xlsx'):
                     dados = pd.read_excel(arquivo)
                 else:
                     messages.error(request, "Formato de arquivo não suportado. Use CSV ou XLSX.")
                     return redirect('upload_turma')
 
-                # Processar os dados do DataFrame e criar as turmas e estudantes
+                # Processa os dados e cria as turmas e estudantes
                 for _, linha in dados.iterrows():
                     try:
-                        nome_turma = linha['Nome da Turma']  # ajuste conforme a coluna no arquivo
-                        carga_horaria = linha['Carga Horaria Diaria']  # ajuste conforme a coluna no arquivo
-                        nome_estudante = linha['Nome do Estudante']  # coluna de nome do estudante
+                        nome_turma = linha['Nome da Turma']  # Coluna com nome da turma
+                        carga_horaria = linha.get('Carga Horaria Diaria', 4)  # Valor padrão caso ausente
+                        nome_estudante = linha['Nome do Estudante']  # Coluna com nome do estudante
 
-                        # Crie ou atualize a turma no banco de dados
+                        # Cria ou atualiza a turma no banco de dados
                         turma, created = Turma.objects.get_or_create(
                             nome=nome_turma,
                             defaults={'carga_horaria_diaria': carga_horaria}
