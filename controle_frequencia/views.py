@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
-from .models import Turma
+from .models import Turma, Estudante
 from django.http import HttpResponse
 import logging
 
@@ -46,12 +46,12 @@ def upload_turma(request):
                     messages.error(request, "Formato de arquivo não suportado. Use CSV ou XLSX.")
                     return redirect('upload_turma')
 
-                # Processar os dados do DataFrame e criar as turmas
+                # Processar os dados do DataFrame e criar as turmas e estudantes
                 for _, linha in dados.iterrows():
-                    # Exemplo de processamento (ajuste conforme as colunas do seu arquivo)
                     try:
                         nome_turma = linha['Nome da Turma']  # ajuste conforme a coluna no arquivo
                         carga_horaria = linha['Carga Horaria Diaria']  # ajuste conforme a coluna no arquivo
+                        nome_estudante = linha['Nome do Estudante']  # coluna de nome do estudante
 
                         # Crie ou atualize a turma no banco de dados
                         turma, created = Turma.objects.get_or_create(
@@ -61,6 +61,10 @@ def upload_turma(request):
                         if not created:
                             turma.carga_horaria_diaria = carga_horaria
                             turma.save()
+
+                        # Criação de instância para Estudante associada à turma
+                        Estudante.objects.create(usuario=nome_estudante, turma=turma)
+
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
                         return redirect('upload_turma')
@@ -68,7 +72,7 @@ def upload_turma(request):
                         messages.error(request, f"Erro ao processar a linha: {e}")
                         return redirect('upload_turma')
 
-                messages.success(request, "Turmas importadas com sucesso!")
+                messages.success(request, "Turmas e estudantes importados com sucesso!")
                 return redirect('upload_turma')
             except Exception as e:
                 logger.error(f"Erro ao processar o arquivo: {e}")
