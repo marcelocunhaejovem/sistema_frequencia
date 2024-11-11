@@ -34,33 +34,30 @@ def upload_turma(request):
     if request.method == 'POST':
         form = UploadTurmaForm(request.POST, request.FILES)
         if form.is_valid():
-            arquivo = request.FILES['arquivo']  # Verifica se o campo 'arquivo' está presente
-
+            arquivo = request.FILES['arquivo']
+            
+            # Verifica o tipo do arquivo e lê os dados
             try:
-                # Lê os dados do arquivo conforme o tipo de extensão
                 if arquivo.name.endswith('.csv'):
-                    dados = pd.read_csv(arquivo, encoding='utf-8')
+                    dados = pd.read_csv(arquivo, encoding='utf-8')  # ajuste de encoding se necessário
                 elif arquivo.name.endswith('.xlsx'):
                     dados = pd.read_excel(arquivo)
                 else:
                     messages.error(request, "Formato de arquivo não suportado. Use CSV ou XLSX.")
                     return redirect('upload_turma')
 
-                # Processa os dados e cria as turmas e estudantes
+                # Processar os dados do DataFrame e criar as turmas e estudantes
                 for _, linha in dados.iterrows():
                     try:
-                        nome_turma = linha['Nome da Turma']  # Coluna com nome da turma
-                        carga_horaria = linha.get('Carga Horaria Diaria', 4)  # Valor padrão caso ausente
-                        nome_estudante = linha['Nome do Estudante']  # Coluna com nome do estudante
+                        nome_turma = linha['TURMA']  # Nome da turma
+                        codigo_turma = linha['CÓDIGO DA TURMA']  # Código único da turma
+                        nome_estudante = linha['NOME DO ALUNO']  # Nome do aluno
 
-                        # Cria ou atualiza a turma no banco de dados
+                        # Crie ou atualize a turma no banco de dados
                         turma, created = Turma.objects.get_or_create(
                             nome=nome_turma,
-                            defaults={'carga_horaria_diaria': carga_horaria}
+                            defaults={'carga_horaria_diaria': 4}  # Valor padrão para carga horária
                         )
-                        if not created:
-                            turma.carga_horaria_diaria = carga_horaria
-                            turma.save()
 
                         # Criação de instância para Estudante associada à turma
                         Estudante.objects.create(usuario=nome_estudante, turma=turma)
