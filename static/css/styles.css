@@ -144,6 +144,18 @@ body {
     font-size: 18px;
 }
 
+/* Estilo para formulário de registro */
+.registration-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
 /* Responsividade */
 @media screen and (max-width: 768px) {
     .sidebar {
