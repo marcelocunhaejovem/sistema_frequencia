@@ -119,17 +119,36 @@ body {
 }
 
 /* Dropdown de configurações de usuário */
-.dropdown-content {
+.header .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.header .dropdown-content {
     display: none;
     position: absolute;
-    right: 20px;
+    right: 0;
     background-color: #fff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    padding: 10px;
+    min-width: 150px;
+    border-radius: 4px;
+    padding: 10px 0;
 }
 
-.dropdown:hover .dropdown-content {
+.header .dropdown-content a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9em;
+}
+
+.header .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.header .dropdown:hover .dropdown-content {
     display: block;
 }
 
