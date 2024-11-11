@@ -19,11 +19,17 @@ body {
     padding-top: 20px;
     height: 100vh;
     position: fixed;
+    transition: width 0.3s;
+}
+
+.sidebar.collapsed {
+    width: 70px;
 }
 
 .sidebar h2 {
     color: #ffc107;
     margin-left: 20px;
+    transition: opacity 0.3s;
 }
 
 .sidebar a {
@@ -33,6 +39,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
+    transition: background-color 0.3s, padding 0.3s;
 }
 
 .sidebar a:hover {
@@ -44,15 +51,33 @@ body {
     margin-right: 10px;
 }
 
+.sidebar.collapsed a {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.sidebar.collapsed a span {
+    display: none;
+}
+
+.sidebar.collapsed h2 {
+    opacity: 0;
+}
+
 /* Estilo do botão retrátil */
 .toggle-btn {
     background: none;
     border: none;
-    color: #fff;
+    color: #ffc107;
     font-size: 1.5em;
     cursor: pointer;
-    margin-top: auto;
-    margin-left: 10px;
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+}
+
+.toggle-btn:hover {
+    color: #fff;
 }
 
 /* Conteúdo principal */
@@ -64,6 +89,12 @@ body {
     box-sizing: border-box;
     height: 100vh;
     overflow-y: auto;
+    transition: margin-left 0.3s, width 0.3s;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
 }
 
 /* Cabeçalho superior */
@@ -102,6 +133,7 @@ body {
     display: block;
 }
 
+/* Estilos para o conteúdo principal */
 .content h1 {
     font-size: 24px;
     font-weight: bold;
@@ -110,4 +142,16 @@ body {
 
 .content p {
     font-size: 18px;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
 }
