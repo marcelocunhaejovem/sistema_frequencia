@@ -54,11 +54,16 @@ def upload_turma(request):
                         codigo_turma = linha['CÓDIGO DA TURMA']  # Código único da turma
                         nome_estudante = linha['NOME DO ALUNO']  # Nome do aluno
 
-                        # Crie ou atualize a turma no banco de dados
+                        # Crie ou atualize a turma no banco de dados com base no código único
                         turma, created = Turma.objects.get_or_create(
-                            nome=nome_turma,
-                            defaults={'carga_horaria_diaria': 4}  # Valor padrão para carga horária
+                            codigo=codigo_turma,
+                            defaults={'nome': nome_turma, 'carga_horaria_diaria': 4}
                         )
+                        
+                        if not created:
+                            # Atualiza o nome da turma se já existe o código
+                            turma.nome = nome_turma
+                            turma.save()
 
                         # Verifica se o usuário já existe; se não, cria um novo usuário com base no nome do aluno
                         user, user_created = User.objects.get_or_create(username=nome_estudante)
