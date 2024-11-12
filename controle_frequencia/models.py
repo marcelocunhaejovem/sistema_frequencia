@@ -60,6 +60,9 @@ class Turma(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name="turmas")
     data_inicio = models.DateField()
     data_previsao_termino = models.DateField()
+    data_expiracao_primeira_chamada = models.DateField(null=True, blank=True)
+    data_limite_confirmacao_matricula = models.DateField(null=True, blank=True)
+    modalidade_ensino = models.CharField(max_length=255)
     carga_horaria_diaria = models.IntegerField(default=4)  # Horas por dia
 
     def __str__(self):
@@ -69,6 +72,13 @@ class Turma(models.Model):
 class Estudante(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True)
+    nome_social = models.CharField(max_length=255, null=True, blank=True)
+    cpf = models.CharField(max_length=11, unique=True)
+    nis_pis = models.CharField(max_length=11, null=True, blank=True)
+    telefone = models.CharField(max_length=15, null=True, blank=True)
+    celular = models.CharField(max_length=15, null=True, blank=True)
+    email = models.EmailField()
+    data_cadastro_matricula = models.DateField()
 
     def __str__(self):
         return self.usuario.username
@@ -97,16 +107,6 @@ class Frequencia(models.Model):
     def __str__(self):
         return f"{self.estudante.usuario.username} - {self.data}"
 
-# Modelo para Matrícula
-class Matricula(models.Model):
-    estudante = models.ForeignKey(Estudante, on_delete=models.CASCADE)
-    codigo_matricula = models.CharField(max_length=50)
-    data_cadastro = models.DateField()
-    situacao = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.estudante.usuario.username} - {self.codigo_matricula}"
-
 # Modelo para Situação da Matrícula
 class SituacaoMatricula(models.Model):
     codigo = models.CharField(max_length=50)
@@ -114,6 +114,18 @@ class SituacaoMatricula(models.Model):
 
     def __str__(self):
         return self.descricao
+
+# Modelo para Matrícula
+class Matricula(models.Model):
+    estudante = models.ForeignKey(Estudante, on_delete=models.CASCADE)
+    codigo_matricula = models.CharField(max_length=50)
+    situacao = models.ForeignKey(SituacaoMatricula, on_delete=models.CASCADE)
+    nome_periodo_pactuacao = models.CharField(max_length=255)
+    modalidade_demanda = models.CharField(max_length=255)
+    modalidade_oferta = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.estudante.usuario.username} - {self.codigo_matricula}"
 
 # Modelo para Período de Pactuação
 class PeriodoPactuacao(models.Model):
