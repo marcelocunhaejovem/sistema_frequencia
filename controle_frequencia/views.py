@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
-from .models import Turma, Estudante, UnidadeEnsino, Curso
+from .models import Turma, Estudante, UnidadeEnsino, Curso, InstituicaoEnsino
 from django.http import HttpResponse
 from django.contrib.auth.models import User  # Importação para criação de usuários
 import logging
@@ -105,13 +105,13 @@ def lista_turmas(request):
     turmas = Turma.objects.none()
     
     # Filtros
-    municipio = request.GET.get('municipio')
-    unidade_ofertante = request.GET.get('unidade_ofertante')
-    unidade_remota = request.GET.get('unidade_remota')
-    curso = request.GET.get('curso')
-    turma_nome = request.GET.get('turma')
-    codigo_turma = request.GET.get('codigo_turma')
-    data_inicio = request.GET.get('data_inicio')
+    municipio = request.GET.get('municipio', '')
+    unidade_ofertante = request.GET.get('unidade_ofertante', '')
+    unidade_remota = request.GET.get('unidade_remota', '')
+    curso = request.GET.get('curso', '')
+    turma_nome = request.GET.get('turma', '')
+    codigo_turma = request.GET.get('codigo_turma', '')
+    data_inicio = request.GET.get('data_inicio', '')
 
     # Verifique se algum filtro foi aplicado antes de buscar as turmas
     if municipio or unidade_ofertante or unidade_remota or curso or turma_nome or codigo_turma or data_inicio:
@@ -119,11 +119,11 @@ def lista_turmas(request):
         
         # Aplique os filtros conforme preenchimento
         if municipio:
-            turmas = turmas.filter(unidade__instituicao__municipio__icontains=municipio)
+            turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
         if unidade_ofertante:
-            turmas = turmas.filter(unidade__nome__icontains=unidade_ofertante)
+            turmas = turmas.filter(curso__unidadeensino__nome__icontains=unidade_ofertante)
         if unidade_remota:
-            turmas = turmas.filter(unidade__nome_remota__icontains=unidade_remota)
+            turmas = turmas.filter(curso__unidadeensino__nome_remota__icontains=unidade_remota)
         if curso:
             turmas = turmas.filter(curso__nome__icontains=curso)
         if turma_nome:
