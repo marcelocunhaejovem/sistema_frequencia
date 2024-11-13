@@ -119,11 +119,11 @@ def lista_turmas(request):
         
         # Aplique os filtros conforme preenchimento
         if municipio:
-            turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
+            turmas = turmas.filter(curso__unidade_ensino__instituicaoensino__municipio__icontains=municipio)
         if unidade_ofertante:
-            turmas = turmas.filter(curso__unidadeensino__nome__icontains=unidade_ofertante)
+            turmas = turmas.filter(curso__unidade_ensino__nome__icontains=unidade_ofertante)
         if unidade_remota:
-            turmas = turmas.filter(curso__unidadeensino__nome_remota__icontains=unidade_remota)
+            turmas = turmas.filter(curso__unidade_ensino__nome_remoto__icontains=unidade_remota)
         if curso:
             turmas = turmas.filter(curso__nome__icontains=curso)
         if turma_nome:
