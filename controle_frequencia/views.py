@@ -101,6 +101,7 @@ def upload_turma(request):
 
 @login_required
 def lista_turmas(request):
+    # Inicialmente, busque todas as turmas
     turmas = Turma.objects.all()
     
     # Filtros
@@ -112,6 +113,7 @@ def lista_turmas(request):
     codigo_turma = request.GET.get('codigo_turma')
     data_inicio = request.GET.get('data_inicio')
 
+    # Aplique filtros apenas se os campos estiverem preenchidos
     if municipio:
         turmas = turmas.filter(unidade__instituicao__municipio__icontains=municipio)
     if unidade_ofertante:
