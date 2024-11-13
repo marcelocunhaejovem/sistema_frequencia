@@ -69,8 +69,12 @@ def upload_turma(request):
                         user, user_created = User.objects.get_or_create(username=nome_estudante)
 
                         # Verifica se o estudante já existe antes de criar
-                        if not Estudante.objects.filter(usuario=user, turma=turma).exists():
-                            Estudante.objects.create(usuario=user, turma=turma)
+                        estudante, estudante_created = Estudante.objects.get_or_create(usuario=user, defaults={'turma': turma})
+                        
+                        # Atualiza a turma do estudante caso ele já exista mas não esteja na turma correta
+                        if not estudante_created and estudante.turma != turma:
+                            estudante.turma = turma
+                            estudante.save()
 
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
