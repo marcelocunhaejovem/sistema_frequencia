@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Turmas{% endblock %}
+
+{% block content %}
+<h1>Lista de Turmas</h1>
+
+<!-- Filtros -->
+<form method="get" class="filter-form">
+    <label for="municipio">Município:</label>
+    <input type="text" id="municipio" name="municipio" value="{{ municipio }}">
+    
+    <label for="unidade_ofertante">Unidade Ofertante:</label>
+    <input type="text" id="unidade_ofertante" name="unidade_ofertante" value="{{ unidade_ofertante }}">
+    
+    <label for="unidade_remota">Unidade Remota:</label>
+    <input type="text" id="unidade_remota" name="unidade_remota" value="{{ unidade_remota }}">
+    
+    <label for="curso">Curso:</label>
+    <input type="text" id="curso" name="curso" value="{{ curso }}">
+    
+    <label for="turma">Turma:</label>
+    <input type="text" id="turma" name="turma" value="{{ turma_nome }}">
+    
+    <label for="codigo_turma">Código da Turma:</label>
+    <input type="text" id="codigo_turma" name="codigo_turma" value="{{ codigo_turma }}">
+    
+    <label for="data_inicio">Início da Turma:</label>
+    <input type="date" id="data_inicio" name="data_inicio" value="{{ data_inicio }}">
+    
+    <button type="submit">Filtrar</button>
+</form>
+
+<!-- Cards de turmas -->
+<div class="turmas-container">
+    {% for turma in turmas %}
+        <div class="turma-card">
+            <h2>{{ turma.curso.nome }} - {{ turma.codigo }}</h2>
+            <p><strong>Unidade de Ensino:</strong> {{ turma.curso.unidadeensino.nome }}</p>
+            {% if turma.curso.unidadeensino.nome_remota %}
+                <p><strong>Unidade Remota:</strong> {{ turma.curso.unidadeensino.nome_remota }}</p>
+            {% endif %}
+            <p><strong>Município:</strong> {{ turma.curso.unidadeensino.instituicao.municipio }}</p>
+            <p><strong>Início:</strong> {{ turma.data_inicio }}</p>
+        </div>
+    {% empty %}
+        <p>Nenhuma turma encontrada com os filtros aplicados.</p>
+    {% endfor %}
+</div>
+{% endblock %}
