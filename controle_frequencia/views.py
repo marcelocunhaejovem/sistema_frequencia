@@ -53,6 +53,7 @@ def upload_turma(request):
                         nome_turma = linha['TURMA']  # Nome da turma
                         codigo_turma = linha['CÓDIGO DA TURMA']  # Código único da turma
                         nome_estudante = linha['NOME DO ALUNO']  # Nome do aluno
+                        cpf_estudante = linha.get('CPF DO ALUNO')  # CPF do aluno, se disponível
 
                         # Crie ou atualize a turma no banco de dados com base no código único
                         turma, created = Turma.objects.get_or_create(
@@ -65,16 +66,20 @@ def upload_turma(request):
                             turma.nome = nome_turma
                             turma.save()
 
-                        # Verifica se o usuário já existe; se não, cria um novo usuário com base no nome do aluno
-                        user, user_created = User.objects.get_or_create(username=nome_estudante)
+                        # Verifica se o usuário já existe pelo CPF
+                        estudante = None
+                        if cpf_estudante:
+                            try:
+                                estudante = Estudante.objects.get(cpf=cpf_estudante)
+                                estudante.turma = turma  # Atualiza a turma do estudante, se necessário
+                                estudante.save()
+                            except Estudante.DoesNotExist:
+                                pass
 
-                        # Verifica se o estudante já existe antes de criar
-                        estudante, estudante_created = Estudante.objects.get_or_create(usuario=user, defaults={'turma': turma})
-                        
-                        # Atualiza a turma do estudante caso ele já exista mas não esteja na turma correta
-                        if not estudante_created and estudante.turma != turma:
-                            estudante.turma = turma
-                            estudante.save()
+                        # Se o estudante com esse CPF não existir, cria um novo usuário e estudante
+                        if not estudante:
+                            user, user_created = User.objects.get_or_create(username=nome_estudante)
+                            Estudante.objects.create(usuario=user, turma=turma, cpf=cpf_estudante)
 
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
