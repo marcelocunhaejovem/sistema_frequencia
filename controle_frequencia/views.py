@@ -66,7 +66,7 @@ def upload_turma(request):
                             turma.nome = nome_turma
                             turma.save()
 
-                        # Verifica se o usuário já existe pelo CPF
+                        # Verifica se o estudante já existe pelo CPF
                         estudante = None
                         if cpf_estudante:
                             try:
@@ -79,7 +79,7 @@ def upload_turma(request):
                         # Se o estudante com esse CPF não existir, cria um novo usuário e estudante
                         if not estudante:
                             user, user_created = User.objects.get_or_create(username=nome_estudante)
-                            Estudante.objects.create(usuario=user, turma=turma, cpf=cpf_estudante)
+                            Estudante.objects.get_or_create(usuario=user, defaults={'turma': turma, 'cpf': cpf_estudante})
 
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
