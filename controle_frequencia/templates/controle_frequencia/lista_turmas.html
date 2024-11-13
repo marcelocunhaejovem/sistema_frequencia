@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Turmas</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="main-content">
+        <h1>Lista de Turmas</h1>
+
+        <!-- Formulário de Filtro -->
+        <form method="get" class="filters">
+            <label for="municipio">Município:</label>
+            <input type="text" name="municipio" id="municipio" value="{{ municipio }}" required>
+
+            <label for="unidade_ofertante">Unidade Ofertante:</label>
+            <input type="text" name="unidade_ofertante" id="unidade_ofertante" value="{{ unidade_ofertante }}" required>
+
+            <label for="unidade_remota">Unidade Remota:</label>
+            <input type="text" name="unidade_remota" id="unidade_remota" value="{{ unidade_remota }}">
+
+            <label for="curso">Curso:</label>
+            <input type="text" name="curso" id="curso" value="{{ curso }}">
+
+            <label for="turma">Turma:</label>
+            <input type="text" name="turma" id="turma" value="{{ turma_nome }}">
+
+            <label for="codigo_turma">Código da Turma:</label>
+            <input type="text" name="codigo_turma" id="codigo_turma" value="{{ codigo_turma }}">
+
+            <label for="data_inicio">Início da Turma:</label>
+            <input type="date" name="data_inicio" id="data_inicio" value="{{ data_inicio }}">
+
+            <button type="submit">Filtrar</button>
+        </form>
+
+        <!-- Exibição dos Cards de Turmas -->
+        <div class="turmas">
+            {% for turma in turmas %}
+            <div class="card">
+                <h2>{{ turma.curso.nome }} - {{ turma.codigo }}</h2>
+                <p>Unidade de Ensino: {{ turma.curso.unidadeensino.nome }}</p>
+                {% if turma.curso.unidadeensino.nome_remota %}
+                    <p>Unidade Remota: {{ turma.curso.unidadeensino.nome_remota }}</p>
+                {% endif %}
+                <p>Município: {{ turma.curso.unidadeensino.instituicao.municipio }}</p>
+            </div>
+            {% empty %}
+            <p>Nenhuma turma encontrada.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
