@@ -41,12 +41,12 @@
         <div class="turmas">
             {% for turma in turmas %}
             <div class="card">
-                <h2>{{ turma.curso.nome }} - {{ turma.codigo }}</h2>
-                <p>Unidade de Ensino: {{ turma.curso.unidadeensino.nome }}</p>
+                <h2>{{ turma.curso.nome|default:"Curso não especificado" }} - {{ turma.codigo }}</h2>
+                <p>Unidade de Ensino: {{ turma.curso.unidadeensino.nome|default:"Unidade não especificada" }}</p>
                 {% if turma.curso.unidadeensino.nome_remota %}
                     <p>Unidade Remota: {{ turma.curso.unidadeensino.nome_remota }}</p>
                 {% endif %}
-                <p>Município: {{ turma.curso.unidadeensino.instituicao.municipio }}</p>
+                <p>Município: {{ turma.curso.unidadeensino.instituicao.municipio|default:"Município não especificado" }}</p>
             </div>
             {% empty %}
             <p>Nenhuma turma encontrada.</p>
