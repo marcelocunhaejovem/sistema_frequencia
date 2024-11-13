@@ -23,5 +23,5 @@ urlpatterns = [
     path('upload_turma/', controle_views.upload_turma, name='upload_turma'),
 
     # URL para visualização de turmas
-    path('turmas/', controle_views.turmas, name='turmas'),
+    path('turmas/', controle_views.lista_turmas, name='lista_turmas'),
 ]
