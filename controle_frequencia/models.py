@@ -73,8 +73,8 @@ class Estudante(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True)
     nome_social = models.CharField(max_length=255, null=True, blank=True)
-    cpf = models.CharField(max_length=11, unique=True)
-    nis_pis = models.CharField(max_length=11, null=True, blank=True)
+    cpf = models.CharField(max_length=14, unique=True)  # Ajustado para 14 caracteres
+    nis_pis = models.CharField(max_length=15, null=True, blank=True)  # Ajustado para 15 caracteres
     telefone = models.CharField(max_length=15, null=True, blank=True)
     celular = models.CharField(max_length=15, null=True, blank=True)
     email = models.EmailField()
