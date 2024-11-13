@@ -104,7 +104,7 @@ def lista_turmas(request):
     # Inicialmente, defina as turmas como vazias
     turmas = Turma.objects.none()
     
-    # Filtros
+    # Filtros com valor inicial vazio
     municipio = request.GET.get('municipio', '')
     unidade_ofertante = request.GET.get('unidade_ofertante', '')
     unidade_remota = request.GET.get('unidade_remota', '')
@@ -113,8 +113,8 @@ def lista_turmas(request):
     codigo_turma = request.GET.get('codigo_turma', '')
     data_inicio = request.GET.get('data_inicio', '')
 
-    # Verifique se algum filtro foi aplicado antes de buscar as turmas
-    if municipio or unidade_ofertante or unidade_remota or curso or turma_nome or codigo_turma or data_inicio:
+    # Verifique se os campos obrigatórios foram preenchidos antes de buscar as turmas
+    if municipio and unidade_ofertante:
         turmas = Turma.objects.all()
         
         # Aplique os filtros conforme preenchimento
@@ -132,6 +132,8 @@ def lista_turmas(request):
             turmas = turmas.filter(codigo=codigo_turma)
         if data_inicio:
             turmas = turmas.filter(data_inicio=data_inicio)
+    else:
+        messages.warning(request, "Os campos 'Município' e 'Unidade ofertante' são obrigatórios para realizar a pesquisa.")
 
     context = {
         'turmas': turmas,
