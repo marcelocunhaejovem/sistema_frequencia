@@ -101,8 +101,8 @@ def upload_turma(request):
 
 @login_required
 def lista_turmas(request):
-    # Inicialmente, busque todas as turmas
-    turmas = Turma.objects.all()
+    # Inicialmente, defina as turmas como vazias
+    turmas = Turma.objects.none()
     
     # Filtros
     municipio = request.GET.get('municipio')
@@ -113,21 +113,25 @@ def lista_turmas(request):
     codigo_turma = request.GET.get('codigo_turma')
     data_inicio = request.GET.get('data_inicio')
 
-    # Aplique filtros apenas se os campos estiverem preenchidos
-    if municipio:
-        turmas = turmas.filter(unidade__instituicao__municipio__icontains=municipio)
-    if unidade_ofertante:
-        turmas = turmas.filter(unidade__nome__icontains=unidade_ofertante)
-    if unidade_remota:
-        turmas = turmas.filter(unidade__nome_remota__icontains=unidade_remota)
-    if curso:
-        turmas = turmas.filter(curso__nome__icontains=curso)
-    if turma_nome:
-        turmas = turmas.filter(nome__icontains=turma_nome)
-    if codigo_turma:
-        turmas = turmas.filter(codigo=codigo_turma)
-    if data_inicio:
-        turmas = turmas.filter(data_inicio=data_inicio)
+    # Verifique se algum filtro foi aplicado antes de buscar as turmas
+    if municipio or unidade_ofertante or unidade_remota or curso or turma_nome or codigo_turma or data_inicio:
+        turmas = Turma.objects.all()
+        
+        # Aplique os filtros conforme preenchimento
+        if municipio:
+            turmas = turmas.filter(unidade__instituicao__municipio__icontains=municipio)
+        if unidade_ofertante:
+            turmas = turmas.filter(unidade__nome__icontains=unidade_ofertante)
+        if unidade_remota:
+            turmas = turmas.filter(unidade__nome_remota__icontains=unidade_remota)
+        if curso:
+            turmas = turmas.filter(curso__nome__icontains=curso)
+        if turma_nome:
+            turmas = turmas.filter(nome__icontains=turma_nome)
+        if codigo_turma:
+            turmas = turmas.filter(codigo=codigo_turma)
+        if data_inicio:
+            turmas = turmas.filter(data_inicio=data_inicio)
 
     context = {
         'turmas': turmas,
