@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
-from .models import Turma, Estudante
+from .models import Turma, Estudante, UnidadeEnsino, Curso
 from django.http import HttpResponse
 from django.contrib.auth.models import User  # Importação para criação de usuários
 import logging
@@ -98,6 +98,47 @@ def upload_turma(request):
         form = UploadTurmaForm()
     
     return render(request, 'controle_frequencia/upload_turma.html', {'form': form})
+
+@login_required
+def lista_turmas(request):
+    turmas = Turma.objects.all()
+    
+    # Filtros
+    municipio = request.GET.get('municipio')
+    unidade_ofertante = request.GET.get('unidade_ofertante')
+    unidade_remota = request.GET.get('unidade_remota')
+    curso = request.GET.get('curso')
+    turma_nome = request.GET.get('turma')
+    codigo_turma = request.GET.get('codigo_turma')
+    data_inicio = request.GET.get('data_inicio')
+
+    if municipio:
+        turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
+    if unidade_ofertante:
+        turmas = turmas.filter(curso__unidadeensino__nome__icontains=unidade_ofertante)
+    if unidade_remota:
+        turmas = turmas.filter(curso__unidadeensino__nome_remota__icontains=unidade_remota)
+    if curso:
+        turmas = turmas.filter(curso__nome__icontains=curso)
+    if turma_nome:
+        turmas = turmas.filter(nome__icontains=turma_nome)
+    if codigo_turma:
+        turmas = turmas.filter(codigo=codigo_turma)
+    if data_inicio:
+        turmas = turmas.filter(data_inicio=data_inicio)
+
+    context = {
+        'turmas': turmas,
+        'municipio': municipio,
+        'unidade_ofertante': unidade_ofertante,
+        'unidade_remota': unidade_remota,
+        'curso': curso,
+        'turma_nome': turma_nome,
+        'codigo_turma': codigo_turma,
+        'data_inicio': data_inicio,
+    }
+    
+    return render(request, 'controle_frequencia/lista_turmas.html', context)
 
 # Teste de log para depuração
 def test_logging(request):
