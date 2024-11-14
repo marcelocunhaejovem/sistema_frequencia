@@ -104,6 +104,11 @@ def lista_turmas(request):
     # Inicialmente, busque todas as turmas
     turmas = Turma.objects.all()
     
+    # Valores únicos para os dropdowns de filtro
+    municipios = InstituicaoEnsino.objects.values_list('municipio', flat=True).distinct()
+    unidades_ofertantes = UnidadeEnsino.objects.values_list('nome', flat=True).distinct()
+    cursos = Curso.objects.values_list('nome', flat=True).distinct()
+
     # Filtros com valor inicial vazio
     municipio = request.GET.get('municipio', '')
     unidade_ofertante = request.GET.get('unidade_ofertante', '')
@@ -131,6 +136,9 @@ def lista_turmas(request):
 
     context = {
         'turmas': turmas,
+        'municipios': municipios,
+        'unidades_ofertantes': unidades_ofertantes,
+        'cursos': cursos,
         'municipio': municipio,
         'unidade_ofertante': unidade_ofertante,
         'unidade_remota': unidade_remota,
