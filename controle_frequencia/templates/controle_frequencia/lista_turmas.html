@@ -1,186 +1,49 @@
 {% extends "controle_frequencia/base.html" %}
 
-{% block title %}Lista de Turmas{% endblock %}
-
 {% block content %}
-<div class="container">
-    <h1 class="page-title">Lista de Turmas</h1>
+<h1>Lista de Turmas</h1>
 
-    <!-- Filtros de pesquisa -->
-    <form method="GET" class="filter-form">
-        <div class="filter-row">
-            <div class="filter-item">
-                <label for="municipio">Município:</label>
-                <select name="municipio" id="municipio" class="filter-select">
-                    <option value="">Todos</option>
-                    {% for mun in municipios %}
-                        <option value="{{ mun }}" {% if municipio == mun %}selected{% endif %}>{{ mun }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+<form method="get" class="filter-form">
+    <label>Município:
+        <select name="municipio">
+            <option value="">Todos</option>
+            {% for item in municipios %}
+            <option value="{{ item }}" {% if municipio == item %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Unidade Ofertante:
+        <select name="unidade_ofertante">
+            <option value="">Todas</option>
+            {% for item in unidades_ofertantes %}
+            <option value="{{ item }}" {% if unidade_ofertante == item %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Unidade Remota: <input type="text" name="unidade_remota" value="{{ unidade_remota }}"></label>
+    <label>Curso:
+        <select name="curso">
+            <option value="">Todos</option>
+            {% for item in cursos %}
+            <option value="{{ item }}" {% if curso == item %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Turma: <input type="text" name="turma" value="{{ turma_nome }}"></label>
+    <label>Código da Turma: <input type="text" name="codigo_turma" value="{{ codigo_turma }}"></label>
+    <label>Início da Turma: <input type="date" name="data_inicio" value="{{ data_inicio }}"></label>
+    <button type="submit">Filtrar</button>
+</form>
 
-            <div class="filter-item">
-                <label for="unidade_ofertante">Unidade Ofertante:</label>
-                <select name="unidade_ofertante" id="unidade_ofertante" class="filter-select">
-                    <option value="">Todas</option>
-                    {% for unidade in unidades_ofertantes %}
-                        <option value="{{ unidade }}" {% if unidade_ofertante == unidade %}selected{% endif %}>{{ unidade }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="filter-item">
-                <label for="unidade_remota">Unidade Remota:</label>
-                <input type="text" name="unidade_remota" id="unidade_remota" class="filter-input" value="{{ unidade_remota|default_if_none:'' }}">
-            </div>
-
-            <div class="filter-item">
-                <label for="curso">Curso:</label>
-                <select name="curso" id="curso" class="filter-select">
-                    <option value="">Todos</option>
-                    {% for curso_nome in cursos %}
-                        <option value="{{ curso_nome }}" {% if curso == curso_nome %}selected{% endif %}>{{ curso_nome }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="filter-row">
-            <div class="filter-item">
-                <label for="turma">Turma:</label>
-                <input type="text" name="turma" id="turma" class="filter-input" value="{{ turma_nome|default_if_none:'' }}">
-            </div>
-
-            <div class="filter-item">
-                <label for="codigo_turma">Código da Turma:</label>
-                <input type="text" name="codigo_turma" id="codigo_turma" class="filter-input" value="{{ codigo_turma|default_if_none:'' }}">
-            </div>
-
-            <div class="filter-item">
-                <label for="data_inicio">Início da Turma:</label>
-                <input type="date" name="data_inicio" id="data_inicio" class="filter-input" value="{{ data_inicio|default_if_none:'' }}">
-            </div>
-
-            <div class="filter-item filter-submit">
-                <button type="submit" class="filter-button">Filtrar</button>
-            </div>
-        </div>
-    </form>
-
-    <!-- Lista de Turmas -->
-    <div class="turmas-container">
-        {% for turma in turmas %}
-            <div class="turma-card">
-                <h2 class="turma-title">{{ turma.curso.nome|default:"Curso não especificado" }} - {{ turma.codigo|default:"Sem Código" }}</h2>
-                <p><strong>Unidade de Ensino:</strong> {{ turma.curso.unidadeensino.nome|default:"Unidade não especificada" }}</p>
-                {% if turma.curso.unidadeensino.nome_remota %}
-                    <p><strong>Unidade Remota:</strong> {{ turma.curso.unidadeensino.nome_remota }}</p>
-                {% endif %}
-                <p><strong>Município:</strong> {{ turma.curso.unidadeensino.instituicaoensino.municipio|default:"Município não especificado" }}</p>
-                <p><strong>Início da Turma:</strong> {{ turma.data_inicio|date:"d/m/Y" }}</p>
-            </div>
-        {% empty %}
-            <p class="no-results">Nenhuma turma encontrada.</p>
-        {% endfor %}
+<div class="turmas-list">
+    {% for turma in turmas %}
+    <div class="turma-card">
+        <h2>{{ turma.curso.nome|default:"Curso não especificado" }} - {{ turma.codigo|default:"Código não especificado" }}</h2>
+        <p><strong>Unidade de Ensino:</strong> {{ turma.curso.unidadeensino.nome|default:"Unidade não especificada" }}</p>
+        <p><strong>Município:</strong> {{ turma.curso.unidadeensino.instituicao.municipio|default:"Município não especificado" }}</p>
     </div>
+    {% empty %}
+    <p>Nenhuma turma encontrada.</p>
+    {% endfor %}
 </div>
 {% endblock %}
-
-<style>
-    /* Estilos adicionais */
-    .container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .page-title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .filter-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .filter-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .filter-item {
-        flex: 1 1 200px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .filter-input, .filter-select {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-        font-size: 14px;
-    }
-
-    .filter-button {
-        padding: 10px 20px;
-        background-color: #ffc107;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-    }
-
-    .filter-button:hover {
-        background-color: #e0a800;
-    }
-
-    .turmas-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 15px;
-    }
-
-    .turma-card {
-        background-color: #fff;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-    }
-
-    .turma-card:hover {
-        transform: scale(1.02);
-    }
-
-    .turma-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .turma-card p {
-        font-size: 14px;
-        color: #555;
-        margin: 5px 0;
-    }
-
-    .no-results {
-        font-size: 16px;
-        color: #999;
-        text-align: center;
-        margin-top: 20px;
-    }
-</style>
