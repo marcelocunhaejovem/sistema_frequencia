@@ -94,10 +94,9 @@ def upload_turma(request):
 
 @login_required
 def lista_turmas(request):
-    # Obtenha todas as turmas
     turmas = Turma.objects.all()
-    
-    # Obtenha listas únicas para os filtros
+
+    # Obtenha listas únicas para dropdown
     municipios = UnidadeEnsino.objects.values_list('instituicao__municipio', flat=True).distinct()
     unidades_ofertantes = UnidadeEnsino.objects.values_list('nome', flat=True).distinct()
     cursos = Curso.objects.values_list('nome', flat=True).distinct()
@@ -111,7 +110,6 @@ def lista_turmas(request):
     codigo_turma = request.GET.get('codigo_turma')
     data_inicio = request.GET.get('data_inicio')
 
-    # Aplique os filtros se os campos estiverem preenchidos
     if municipio:
         turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
     if unidade_ofertante:
