@@ -6,9 +6,9 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
-from .models import Turma, Estudante, UnidadeEnsino, Curso, InstituicaoEnsino
+from .models import Turma, Estudante, UnidadeEnsino, Curso
 from django.http import HttpResponse
-from django.contrib.auth.models import User  # Importação para criação de usuários
+from django.contrib.auth.models import User
 import logging
 
 logger = logging.getLogger('django')
@@ -24,8 +24,8 @@ def registro(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            login(request, user)  # Autentica o usuário automaticamente após o registro
-            return redirect('home')  # Redireciona para a página inicial após o registro
+            login(request, user)
+            return redirect('home')
     else:
         form = RegistroForm()
     return render(request, 'controle_frequencia/registro.html', {'form': form})
@@ -36,47 +36,40 @@ def upload_turma(request):
         form = UploadTurmaForm(request.POST, request.FILES)
         if form.is_valid():
             arquivo = request.FILES['arquivo']
-            
-            # Verifica o tipo do arquivo e lê os dados
             try:
                 if arquivo.name.endswith('.csv'):
-                    dados = pd.read_csv(arquivo, encoding='utf-8')  # ajuste de encoding se necessário
+                    dados = pd.read_csv(arquivo, encoding='utf-8')
                 elif arquivo.name.endswith('.xlsx'):
                     dados = pd.read_excel(arquivo)
                 else:
                     messages.error(request, "Formato de arquivo não suportado. Use CSV ou XLSX.")
                     return redirect('upload_turma')
 
-                # Processar os dados do DataFrame e criar as turmas e estudantes
                 for _, linha in dados.iterrows():
                     try:
-                        nome_turma = linha['TURMA']  # Nome da turma
-                        codigo_turma = linha['CÓDIGO DA TURMA']  # Código único da turma
-                        nome_estudante = linha['NOME DO ALUNO']  # Nome do aluno
-                        cpf_estudante = linha.get('CPF DO ALUNO')  # CPF do aluno, se disponível
+                        nome_turma = linha['TURMA']
+                        codigo_turma = linha['CÓDIGO DA TURMA']
+                        nome_estudante = linha['NOME DO ALUNO']
+                        cpf_estudante = linha.get('CPF DO ALUNO')
 
-                        # Crie ou atualize a turma no banco de dados com base no código único
                         turma, created = Turma.objects.get_or_create(
                             codigo=codigo_turma,
                             defaults={'nome': nome_turma, 'carga_horaria_diaria': 4}
                         )
                         
                         if not created:
-                            # Atualiza o nome da turma se já existe o código
                             turma.nome = nome_turma
                             turma.save()
 
-                        # Verifica se o estudante já existe pelo CPF
                         estudante = None
                         if cpf_estudante:
                             try:
                                 estudante = Estudante.objects.get(cpf=cpf_estudante)
-                                estudante.turma = turma  # Atualiza a turma do estudante, se necessário
+                                estudante.turma = turma
                                 estudante.save()
                             except Estudante.DoesNotExist:
                                 pass
 
-                        # Se o estudante com esse CPF não existir, cria um novo usuário e estudante
                         if not estudante:
                             user, user_created = User.objects.get_or_create(username=nome_estudante)
                             Estudante.objects.get_or_create(usuario=user, defaults={'turma': turma, 'cpf': cpf_estudante})
@@ -101,26 +94,26 @@ def upload_turma(request):
 
 @login_required
 def lista_turmas(request):
-    # Inicialmente, busque todas as turmas
+    # Obtenha todas as turmas
     turmas = Turma.objects.all()
     
-    # Valores únicos para os dropdowns de filtro
-    municipios = InstituicaoEnsino.objects.values_list('municipio', flat=True).distinct()
+    # Obtenha listas únicas para os filtros
+    municipios = UnidadeEnsino.objects.values_list('instituicao__municipio', flat=True).distinct()
     unidades_ofertantes = UnidadeEnsino.objects.values_list('nome', flat=True).distinct()
     cursos = Curso.objects.values_list('nome', flat=True).distinct()
 
-    # Filtros com valor inicial vazio
-    municipio = request.GET.get('municipio', '')
-    unidade_ofertante = request.GET.get('unidade_ofertante', '')
-    unidade_remota = request.GET.get('unidade_remota', '')
-    curso = request.GET.get('curso', '')
-    turma_nome = request.GET.get('turma', '')
-    codigo_turma = request.GET.get('codigo_turma', '')
-    data_inicio = request.GET.get('data_inicio', '')
+    # Filtros de pesquisa
+    municipio = request.GET.get('municipio')
+    unidade_ofertante = request.GET.get('unidade_ofertante')
+    unidade_remota = request.GET.get('unidade_remota')
+    curso = request.GET.get('curso')
+    turma_nome = request.GET.get('turma')
+    codigo_turma = request.GET.get('codigo_turma')
+    data_inicio = request.GET.get('data_inicio')
 
-    # Aplique os filtros conforme preenchimento
+    # Aplique os filtros se os campos estiverem preenchidos
     if municipio:
-        turmas = turmas.filter(curso__unidadeensino__instituicaoensino__municipio__icontains=municipio)
+        turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
     if unidade_ofertante:
         turmas = turmas.filter(curso__unidadeensino__nome__icontains=unidade_ofertante)
     if unidade_remota:
