@@ -31,7 +31,7 @@
 
             <div class="filter-item">
                 <label for="unidade_remota">Unidade Remota:</label>
-                <input type="text" name="unidade_remota" id="unidade_remota" class="filter-input" value="{{ unidade_remota }}">
+                <input type="text" name="unidade_remota" id="unidade_remota" class="filter-input" value="{{ unidade_remota|default_if_none:'' }}">
             </div>
 
             <div class="filter-item">
@@ -48,17 +48,17 @@
         <div class="filter-row">
             <div class="filter-item">
                 <label for="turma">Turma:</label>
-                <input type="text" name="turma" id="turma" class="filter-input" value="{{ turma_nome }}">
+                <input type="text" name="turma" id="turma" class="filter-input" value="{{ turma_nome|default_if_none:'' }}">
             </div>
 
             <div class="filter-item">
                 <label for="codigo_turma">Código da Turma:</label>
-                <input type="text" name="codigo_turma" id="codigo_turma" class="filter-input" value="{{ codigo_turma }}">
+                <input type="text" name="codigo_turma" id="codigo_turma" class="filter-input" value="{{ codigo_turma|default_if_none:'' }}">
             </div>
 
             <div class="filter-item">
                 <label for="data_inicio">Início da Turma:</label>
-                <input type="date" name="data_inicio" id="data_inicio" class="filter-input" value="{{ data_inicio }}">
+                <input type="date" name="data_inicio" id="data_inicio" class="filter-input" value="{{ data_inicio|default_if_none:'' }}">
             </div>
 
             <div class="filter-item filter-submit">
