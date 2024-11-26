@@ -1,25 +1,18 @@
-{% extends "controle_frequencia/base.html" %}
-
-{% block title %}Upload de Turmas{% endblock %}
-{% block header %}Upload de Turmas{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="content">
-    <h1>Upload de Turmas</h1>
-    <p>Use o formulário abaixo para carregar um arquivo com as informações das turmas. Os formatos suportados são CSV e XLSX.</p>
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-    
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</div>
+<h1>Upload de Turmas</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
+<p><strong>Colunas esperadas no arquivo:</strong></p>
+<ul>
+    <li>PROGRAMA</li>
+    <li>INSTITUIÇÃO DE ENSINO</li>
+    <li>UF</li>
+    <li>MUNICÍPIO</li>
+    <!-- Adicione todas as colunas listadas -->
+</ul>
 {% endblock %}
