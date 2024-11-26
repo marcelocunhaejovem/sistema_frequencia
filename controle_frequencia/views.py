@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, UploadTurmaForm
-from .models import Turma, Estudante, UnidadeEnsino, Curso
+from .models import Turma, Estudante, UnidadeEnsino, Curso, InstituicaoEnsino
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 import logging
@@ -49,30 +49,34 @@ def upload_turma(request):
                     try:
                         nome_turma = linha['TURMA']
                         codigo_turma = linha['CÓDIGO DA TURMA']
-                        nome_estudante = linha['NOME DO ALUNO']
-                        cpf_estudante = linha.get('CPF DO ALUNO')
+                        nome_curso = linha['CURSO']
+                        nome_unidade = linha['UNIDADE']
+                        nome_instituicao = linha['INSTITUICAO']
+                        municipio = linha['MUNICIPIO']
+                        uf = linha['UF']
 
-                        turma, created = Turma.objects.get_or_create(
-                            codigo=codigo_turma,
-                            defaults={'nome': nome_turma, 'carga_horaria_diaria': 4}
+                        # Verificar e criar Instituição de Ensino
+                        instituicao, _ = InstituicaoEnsino.objects.get_or_create(
+                            nome=nome_instituicao,
+                            defaults={'municipio': municipio, 'uf': uf}
                         )
-                        
-                        if not created:
-                            turma.nome = nome_turma
-                            turma.save()
 
-                        estudante = None
-                        if cpf_estudante:
-                            try:
-                                estudante = Estudante.objects.get(cpf=cpf_estudante)
-                                estudante.turma = turma
-                                estudante.save()
-                            except Estudante.DoesNotExist:
-                                pass
+                        # Verificar e criar Unidade de Ensino
+                        unidade, _ = UnidadeEnsino.objects.get_or_create(
+                            nome=nome_unidade,
+                            instituicao=instituicao
+                        )
 
-                        if not estudante:
-                            user, user_created = User.objects.get_or_create(username=nome_estudante)
-                            Estudante.objects.get_or_create(usuario=user, defaults={'turma': turma, 'cpf': cpf_estudante})
+                        # Verificar e criar Curso
+                        curso, _ = Curso.objects.get_or_create(
+                            nome=nome_curso,
+                        )
+
+                        # Verificar e criar Turma
+                        turma, _ = Turma.objects.get_or_create(
+                            codigo=codigo_turma,
+                            defaults={'nome': nome_turma, 'curso': curso}
+                        )
 
                     except KeyError as e:
                         messages.error(request, f"Coluna esperada não encontrada: {e}")
@@ -81,7 +85,7 @@ def upload_turma(request):
                         messages.error(request, f"Erro ao processar a linha: {e}")
                         return redirect('upload_turma')
 
-                messages.success(request, "Turmas e estudantes importados com sucesso!")
+                messages.success(request, "Turmas e dados relacionados importados com sucesso!")
                 return redirect('upload_turma')
             except Exception as e:
                 logger.error(f"Erro ao processar o arquivo: {e}")
@@ -97,7 +101,7 @@ def lista_turmas(request):
     turmas = Turma.objects.all()
 
     # Obtenha listas únicas para os dropdowns
-    municipios = list(UnidadeEnsino.objects.values_list('instituicao__municipio', flat=True).distinct())
+    municipios = list(InstituicaoEnsino.objects.values_list('municipio', flat=True).distinct())
     unidades_ofertantes = list(UnidadeEnsino.objects.values_list('nome', flat=True).distinct())
     cursos = list(Curso.objects.values_list('nome', flat=True).distinct())
 
