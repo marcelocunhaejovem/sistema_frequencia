@@ -1,3 +1,5 @@
+# controle_frequencia/views.py
+
 import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -94,28 +96,27 @@ def upload_turma(request):
 def lista_turmas(request):
     turmas = Turma.objects.all()
 
-    # Obtenha listas únicas para dropdowns
+    # Obtenha listas únicas para os dropdowns
     municipios = UnidadeEnsino.objects.values_list('instituicao__municipio', flat=True).distinct()
     unidades_ofertantes = UnidadeEnsino.objects.values_list('nome', flat=True).distinct()
     cursos = Curso.objects.values_list('nome', flat=True).distinct()
 
     # Filtros de pesquisa
-    municipio = request.GET.get('municipio', '')
-    unidade_ofertante = request.GET.get('unidade_ofertante', '')
-    unidade_remota = request.GET.get('unidade_remota', '')
-    curso = request.GET.get('curso', '')
-    turma_nome = request.GET.get('turma', '')
-    codigo_turma = request.GET.get('codigo_turma', '')
-    data_inicio = request.GET.get('data_inicio', '')
+    municipio = request.GET.get('municipio')
+    unidade_ofertante = request.GET.get('unidade_ofertante')
+    unidade_remota = request.GET.get('unidade_remota')
+    curso = request.GET.get('curso')
+    turma_nome = request.GET.get('turma')
+    codigo_turma = request.GET.get('codigo_turma')
+    data_inicio = request.GET.get('data_inicio')
 
-    # Aplique os filtros se os campos não estiverem vazios
-    if municipio:
+    if municipio and municipio != "Todos":
         turmas = turmas.filter(curso__unidadeensino__instituicao__municipio__icontains=municipio)
-    if unidade_ofertante:
+    if unidade_ofertante and unidade_ofertante != "Todas":
         turmas = turmas.filter(curso__unidadeensino__nome__icontains=unidade_ofertante)
     if unidade_remota:
         turmas = turmas.filter(curso__unidadeensino__nome_remota__icontains=unidade_remota)
-    if curso:
+    if curso and curso != "Todos":
         turmas = turmas.filter(curso__nome__icontains=curso)
     if turma_nome:
         turmas = turmas.filter(nome__icontains=turma_nome)
